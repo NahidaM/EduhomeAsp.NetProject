@@ -24,7 +24,7 @@
 <div class="blog-area pt-150 pb-150">
     <div class="container">
         <div class="row">
-            @*@await Component.InvokeAsync("Blog", 2)*@
+
             @foreach (var blog in Model)
             {
                 <div class="col-md-4 col-sm-6 col-xs-12 mt-4" style="margin-top:50px">
@@ -45,16 +45,24 @@
                             </div>
                         </div>
                     </div>
-                </div> 
+                </div>
             }
         </div>
         <div class="row">
             <div class="col-xs-12">
                 <div class="pagination">
                     <ul>
-                        <li><a href="#">1</a></li>
-                        <li><a href="#">2</a></li>
-                        <li><a href="#">3</a></li>
+                        @for (int i = 1; i <= ViewBag.PageCount; i++)
+                        {
+                            if (ViewBag.Page == i)
+                            {
+                                <li class="page-item disabled"><a class="page-link" href="#">@i</a></li>
+                            }
+                            else
+                            {
+                                <li class="page-item"><a class="page-link" asp-controller="Blog" asp-action="Index" asp-route-page="@i">@i</a></li>
+                            }
+                        }
                     </ul>
                 </div>
             </div>
@@ -62,3 +70,6 @@
     </div>
 </div>
 <!-- Blog End -->
+<!-- Subscribe Start -->
+<partial name="_partialSubscribe" />
+<!-- Subscribe End --> 
