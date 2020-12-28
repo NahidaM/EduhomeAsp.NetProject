@@ -1,4 +1,6 @@
-﻿using HomeEduBackendFinal.Models;
+﻿using HomeEduBackendFinal.DAL;
+using HomeEduBackendFinal.Models;
+using HomeEduBackendFinal.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -11,16 +13,24 @@ namespace HomeEduBackendFinal.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
-
-        public HomeController(ILogger<HomeController> logger)
+        private readonly AppDbContext _db;
+        public HomeController(AppDbContext db)
         {
-            _logger = logger;
+            _db = db;
         }
+        public async Task<IActionResult> Index()
+        { 
+            HomeVM homeVM = new HomeVM
+            {
+                Sliders = _db.Sliders.ToList(),
+                NoticeLeftInfos = _db.NoticeLeftInfos.ToList(),
+                NoticeRightInfos = _db.NoticeRightInfos.ToList(),
+                WhyUs = _db.WhyUs.FirstOrDefault(),
+                UpComingEvents = _db.UpComingEvents.ToList() 
+            };
 
-        public IActionResult Index()
-        {
-            return View();
+
+            return View(homeVM);
         }
 
         public IActionResult Privacy()

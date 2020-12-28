@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\ACER\\Desktop\\HomeEduBackendFinal\\HomeEduBackendFinal\\HomeEduBackendFinal.csproj": {}
+    "C:\\Users\\ACER\\Desktop\\EduhomeAsp.NetProject\\HomeEduBackendFinal\\HomeEduBackendFinal\\HomeEduBackendFinal.csproj": {}
   },
   "projects": {
-    "C:\\Users\\ACER\\Desktop\\HomeEduBackendFinal\\HomeEduBackendFinal\\HomeEduBackendFinal.csproj": {
+    "C:\\Users\\ACER\\Desktop\\EduhomeAsp.NetProject\\HomeEduBackendFinal\\HomeEduBackendFinal\\HomeEduBackendFinal.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\ACER\\Desktop\\HomeEduBackendFinal\\HomeEduBackendFinal\\HomeEduBackendFinal.csproj",
+        "projectUniqueName": "C:\\Users\\ACER\\Desktop\\EduhomeAsp.NetProject\\HomeEduBackendFinal\\HomeEduBackendFinal\\HomeEduBackendFinal.csproj",
         "projectName": "HomeEduBackendFinal",
-        "projectPath": "C:\\Users\\ACER\\Desktop\\HomeEduBackendFinal\\HomeEduBackendFinal\\HomeEduBackendFinal.csproj",
+        "projectPath": "C:\\Users\\ACER\\Desktop\\EduhomeAsp.NetProject\\HomeEduBackendFinal\\HomeEduBackendFinal\\HomeEduBackendFinal.csproj",
         "packagesPath": "C:\\Users\\ACER\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\ACER\\Desktop\\HomeEduBackendFinal\\HomeEduBackendFinal\\obj\\",
+        "outputPath": "C:\\Users\\ACER\\Desktop\\EduhomeAsp.NetProject\\HomeEduBackendFinal\\HomeEduBackendFinal\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Microsoft\\Xamarin\\NuGet\\"
@@ -44,6 +44,20 @@
         "netcoreapp3.1": {
           "targetAlias": "netcoreapp3.1",
           "dependencies": {
+            "Microsoft.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[3.1.10, )"
+            },
+            "Microsoft.EntityFrameworkCore.SqlServer": {
+              "target": "Package",
+              "version": "[3.1.10, )"
+            },
+            "Microsoft.EntityFrameworkCore.Tools": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[3.1.10, )"
+            },
             "Microsoft.VisualStudio.Web.CodeGeneration.Design": {
               "target": "Package",
               "version": "[3.1.4, )"
