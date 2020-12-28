@@ -20,7 +20,7 @@ namespace HomeEduBackendFinal.Controllers
             return View();
         }
 
-        public IActionResult Index(int? page)
+        public IActionResult Index(int? page) 
         {
             ViewBag.PageCount = Math.Ceiling((decimal)_db.Blogs.Count() / 3);
             ViewBag.Page = page;

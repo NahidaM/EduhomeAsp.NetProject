@@ -1,30 +1,21 @@
-﻿
+﻿@model IEnumerable<Blog>
 @{
-    ViewData["Title"] = "Blog";
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    if (ViewBag.Page == null)
+    {
+        ViewBag.Page = 1;
+    }
 }
-
+<input type="hidden" id="hidden" value="blog" />
 <!-- Banner Area Start -->
-<div class="banner-area-wrapper">
-    <div class="banner-area text-center">
-        <div class="container">
-            <div class="row">
-                <div class="col-xs-12">
-                    <div class="banner-content-wrapper">
-                        <div class="banner-content">
-                            <h2>blog</h2>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+<partial name="_partialBanner" />
 <!-- Banner Area End -->
 <!-- Blog Start -->
 <div class="blog-area pt-150 pb-150">
     <div class="container">
         <div class="row">
-
+            @*@await Component.InvokeAsync("Blog", 2)*@
             @foreach (var blog in Model)
             {
                 <div class="col-md-4 col-sm-6 col-xs-12 mt-4" style="margin-top:50px">
@@ -46,30 +37,30 @@
                         </div>
                     </div>
                 </div>
+
             }
+
         </div>
-        <div class="row">
-            <div class="col-xs-12">
-                <div class="pagination">
-                    <ul>
-                        @for (int i = 1; i <= ViewBag.PageCount; i++)
+        <div class="row mt-5 justify-content-center">
+            <nav aria-label="...">
+                <ul class="pagination pagination-sm">
+                    @for (int i = 1; i <= ViewBag.PageCount; i++)
+                    {
+                        if (ViewBag.Page == i)
                         {
-                            if (ViewBag.Page == i)
-                            {
-                                <li class="page-item disabled"><a class="page-link" href="#">@i</a></li>
-                            }
-                            else
-                            {
-                                <li class="page-item"><a class="page-link" asp-controller="Blog" asp-action="Index" asp-route-page="@i">@i</a></li>
-                            }
+                            <li class="page-item disabled"><a class="page-link" href="#">@i</a></li>
                         }
-                    </ul>
-                </div>
-            </div>
+                        else
+                        {
+                            <li class="page-item"><a class="page-link" asp-controller="Blog" asp-action="Index" asp-route-page="@i">@i</a></li>
+                        }
+                    }
+                </ul>
+            </nav>
         </div>
     </div>
 </div>
 <!-- Blog End -->
 <!-- Subscribe Start -->
 <partial name="_partialSubscribe" />
-<!-- Subscribe End --> 
+<!-- Subscribe End -->

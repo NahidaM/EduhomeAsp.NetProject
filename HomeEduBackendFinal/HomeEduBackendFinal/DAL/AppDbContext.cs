@@ -23,6 +23,8 @@ namespace HomeEduBackendFinal.DAL
         public DbSet<CourseCategory> CourseCategories { get; set; }
         public DbSet<UpCommingEvent> UpComingEvents { get; set; }
         public DbSet<Testimonial> Testimonials { get; set; }
-        public DbSet<Blog> Blogs { get; set; } 
+        public DbSet<Blog> Blogs { get; set; }
+        public DbSet<HomeBio> HomeBios { get; set; }
+        public DbSet<Bio> Bios { get; set; }
     }
 }
