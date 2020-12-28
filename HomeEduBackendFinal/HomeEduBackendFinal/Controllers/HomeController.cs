@@ -18,7 +18,7 @@ namespace HomeEduBackendFinal.Controllers
         {
             _db = db;
         }
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index() 
         { 
             HomeVM homeVM = new HomeVM
             {
@@ -26,22 +26,12 @@ namespace HomeEduBackendFinal.Controllers
                 NoticeLeftInfos = _db.NoticeLeftInfos.ToList(),
                 NoticeRightInfos = _db.NoticeRightInfos.ToList(),
                 WhyUs = _db.WhyUs.FirstOrDefault(),
-                UpComingEvents = _db.UpComingEvents.ToList() 
+                UpComingEvents = _db.UpComingEvents.ToList(),
+                Testimonial = _db.Testimonials.FirstOrDefault() 
             };
 
 
             return View(homeVM);
-        }
-
-        public IActionResult Privacy()
-        {
-            return View();
-        }
-
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-        }
+        } 
     }
 }

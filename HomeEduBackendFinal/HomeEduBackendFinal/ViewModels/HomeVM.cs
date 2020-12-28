@@ -13,5 +13,6 @@ namespace HomeEduBackendFinal.ViewModels
         public List<NoticeRightInfo> NoticeRightInfos { get; set; }
         public WhyUs WhyUs { get; set; } 
         public List<UpCommingEvent> UpComingEvents { get; set; }
+        public Testimonial Testimonial { get; set; } 
     }
 }

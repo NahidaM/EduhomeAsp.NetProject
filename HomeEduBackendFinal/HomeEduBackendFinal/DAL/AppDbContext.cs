@@ -21,6 +21,7 @@ namespace HomeEduBackendFinal.DAL
         public DbSet<Course> Courses { get; set; }
         public DbSet<Category> Categories { get; set; } 
         public DbSet<CourseCategory> CourseCategories { get; set; }
-        public DbSet<UpCommingEvent> UpComingEvents { get; set; } 
+        public DbSet<UpCommingEvent> UpComingEvents { get; set; }
+        public DbSet<Testimonial> Testimonials { get; set; }
     }
 }
