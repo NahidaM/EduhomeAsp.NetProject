@@ -1,7 +1,8 @@
-﻿
+﻿@model AboutVM 
 @{
-    ViewData["Title"] = "About";
-}
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+} 
 
 <!-- Banner Area Start -->
 <div class="banner-area-wrapper">
@@ -26,15 +27,15 @@
         <div class="row">
             <div class="col-md-6 col-sm-6">
                 <div class="about-content">
-                    <h2>WELCOME TO <span>EDUHOME</span></h2>
-                    <p>I must explain to you how all this mistaken idea of denouncing pleure and prsing pain was born and I will give you a complete account of the system, and expound the actual teachings  the master-builder of humanit happiness</p>
-                    <p class="hidden-sm">I must explain to you how all this mistaken idea of denouncing pleure and prsing pain was born and I will give you a complete account of the system</p>
+                    @Html.Raw(Model.About.Title)
+
+                    <p class="hidden-sm">@Model.About.Description</p>
                     <a class="default-btn" href="#">view courses</a>
                 </div>
-            </div>
+            </div> 
             <div class="col-md-6 col-sm-6">
                 <div class="about-img">
-                    <img src="~/img/about/about.png" alt="about">
+                    <img src="~/img/about/@Model.About.Image" alt="about">
                 </div>
             </div>
         </div>
@@ -139,9 +140,9 @@
                             <div class="testimonial-content">
                                 <p> @Model.Testimonial.Title</p>
                                 <h4>@Model.Testimonial.Name</h4>
-                                <h5>@Model.Testimonial.Position</h5>
+                                <h5>@Model.Testimonial.Position</h5> 
                             </div>
-                        </div> 
+                        </div>
                     </div>
                 </div>
             </div>
@@ -155,25 +156,28 @@
         <div class="row">
             <div class="col-md-6 col-sm-6 col-xs-12">
                 <div class="notice-right-wrapper mb-25 pb-25">
-                    <h3>TAKE A VIDEO TOUR</h3>
+                    <h3>@Model.VideoTour.Title</h3>
                     <div class="notice-video">
                         <div class="video-icon video-hover">
-                            <a class="video-popup" href="https://www.youtube.com/watch?v=to6Ghf8UL7o">
+                            <a class="video-popup" href="@Model.VideoTour.VideoLink">
                                 <i class="zmdi zmdi-play"></i>
                             </a>
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> 
             <div class="col-md-6 col-sm-6 col-xs-12">
                 <div class="notice-left-wrapper">
                     <h3>notice board</h3>
                     <div class="notice-left">
-                        <div class="single-notice-left mb-23 pb-20">
-                            <h4>5, June 2017</h4>
-                            <p>I must explain to you how all this mistaken idea of denouncing plasure and praising pain was born and I will give you a complete </p>
-                        </div>
-                        <div class="single-notice-left hidden-sm mb-23 pb-20">
+                        @foreach (var notice in Model.NoticeLeftInfos)
+                        {
+                            <div class="single-notice-left mb-23 pb-20">
+                                <h4>@notice.Date.ToString("dddd, dd MMMM yyyy")</h4>
+                                <p>@notice.Description</p>
+                            </div> 
+                        } 
+                        @*<div class="single-notice-left hidden-sm mb-23 pb-20">
                             <h4>4, June 2017</h4>
                             <p>I must explain to you how all this mistaken idea of denouncing plasure and praising pain was born and I will give you a complete </p>
                         </div>
@@ -192,7 +196,7 @@
                         <div class="single-notice-left pb-70">
                             <h4>3, June 2017</h4>
                             <p>I must explain to you how all this mistaken idea of denouncing plasure and praising pain was born and I will give you a complete </p>
-                        </div>
+                        </div>*@
                     </div>
                 </div>
             </div>

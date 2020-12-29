@@ -26,5 +26,7 @@ namespace HomeEduBackendFinal.DAL
         public DbSet<Blog> Blogs { get; set; }
         public DbSet<HomeBio> HomeBios { get; set; }
         public DbSet<Bio> Bios { get; set; }
+        public DbSet<About> Abouts { get; set; }
+        public DbSet<VideoTour> VideoTours { get; set; } 
     }
 }
