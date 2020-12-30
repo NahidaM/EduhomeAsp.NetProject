@@ -30,6 +30,8 @@ namespace HomeEduBackendFinal.DAL
         public DbSet<VideoTour> VideoTours { get; set; }
         public DbSet<Teacher> Teachers { get; set; }
         public DbSet<TeacherUser> TeacherUsers { get; set; } 
-        public DbSet<Skill> Skills { get; set; } 
+        public DbSet<Skill> Skills { get; set; }
+        public DbSet<Speaker> Speakers { get; set; }
+        public DbSet<SpeakerEvent> SpeakerEvents { get; set; } 
     }
 }

@@ -33,6 +33,6 @@ namespace HomeEduBackendFinal.Models
         public Category Category { get; set; }
         public virtual ICollection<TeacherUser> TeacherUsers { get; set; } 
         public bool IsDeleted { get; set; }
-        //public Skill Skill { get; set; } 
+        public Skill Skill { get; set; } 
     }
 }
