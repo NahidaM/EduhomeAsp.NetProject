@@ -281,3 +281,11 @@ C:\Users\ACER\Desktop\EduhomeAsp.NetProject\HomeEduBackendFinal\HomeEduBackendFi
 C:\Users\ACER\Desktop\EduhomeAsp.NetProject\HomeEduBackendFinal\HomeEduBackendFinal\obj\Debug\netcoreapp3.1\Razor\Views\Teacher\Detail.cshtml.g.cs
 C:\Users\ACER\Desktop\EduhomeAsp.NetProject\HomeEduBackendFinal\HomeEduBackendFinal\obj\Debug\netcoreapp3.1\Razor\Views\Event\Detail.cshtml.g.cs
 C:\Users\ACER\Desktop\EduhomeAsp.NetProject\HomeEduBackendFinal\HomeEduBackendFinal\obj\Debug\netcoreapp3.1\Razor\Views\Shared\_partialBanner.cshtml.g.cs
+C:\Users\ACER\Desktop\EduhomeAsp.NetProject\HomeEduBackendFinal\HomeEduBackendFinal\obj\Debug\netcoreapp3.1\Razor\Areas\Admin\Views\_ViewImports.cshtml.g.cs
+C:\Users\ACER\Desktop\EduhomeAsp.NetProject\HomeEduBackendFinal\HomeEduBackendFinal\obj\Debug\netcoreapp3.1\Razor\Areas\Admin\Views\_ViewStart.cshtml.g.cs
+C:\Users\ACER\Desktop\EduhomeAsp.NetProject\HomeEduBackendFinal\HomeEduBackendFinal\bin\Debug\netcoreapp3.1\Microsoft.AspNetCore.Cryptography.Internal.dll
+C:\Users\ACER\Desktop\EduhomeAsp.NetProject\HomeEduBackendFinal\HomeEduBackendFinal\bin\Debug\netcoreapp3.1\Microsoft.AspNetCore.Cryptography.KeyDerivation.dll
+C:\Users\ACER\Desktop\EduhomeAsp.NetProject\HomeEduBackendFinal\HomeEduBackendFinal\bin\Debug\netcoreapp3.1\Microsoft.AspNetCore.Identity.EntityFrameworkCore.dll
+C:\Users\ACER\Desktop\EduhomeAsp.NetProject\HomeEduBackendFinal\HomeEduBackendFinal\bin\Debug\netcoreapp3.1\Microsoft.Extensions.Identity.Core.dll
+C:\Users\ACER\Desktop\EduhomeAsp.NetProject\HomeEduBackendFinal\HomeEduBackendFinal\bin\Debug\netcoreapp3.1\Microsoft.Extensions.Identity.Stores.dll
+C:\Users\ACER\Desktop\EduhomeAsp.NetProject\HomeEduBackendFinal\HomeEduBackendFinal\obj\Debug\netcoreapp3.1\Razor\Views\Account\Login.cshtml.g.cs

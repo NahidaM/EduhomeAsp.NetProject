@@ -1,4 +1,5 @@
 ﻿using HomeEduBackendFinal.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -7,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace HomeEduBackendFinal.DAL
 {
-    public class AppDbContext:DbContext
+    public class AppDbContext: IdentityDbContext<AppUser>
     {
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) 
         {
@@ -29,7 +30,8 @@ namespace HomeEduBackendFinal.DAL
         public DbSet<About> Abouts { get; set; }
         public DbSet<VideoTour> VideoTours { get; set; }
         public DbSet<Teacher> Teachers { get; set; }
-        public DbSet<TeacherUser> TeacherUsers { get; set; } 
+        //public DbSet<CourseUser> CourseUsers { get; set; }
+        //public DbSet<TeacherUser> TeacherUsers { get; set; } 
         public DbSet<Skill> Skills { get; set; }
         public DbSet<Speaker> Speakers { get; set; }
         public DbSet<SpeakerEvent> SpeakerEvents { get; set; }
