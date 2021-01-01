@@ -1,8 +1,8 @@
-﻿@model AboutVM 
+﻿@model AboutVM
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
-} 
+}
 
 <!-- Banner Area Start -->
 <div class="banner-area-wrapper">
@@ -32,7 +32,7 @@
                     <p class="hidden-sm">@Model.About.Description</p>
                     <a class="default-btn" href="#">view courses</a>
                 </div>
-            </div> 
+            </div>
             <div class="col-md-6 col-sm-6">
                 <div class="about-img">
                     <img src="~/img/about/@Model.About.Image" alt="about">
@@ -44,7 +44,7 @@
 <!-- About End -->
 <!-- Teacher Start -->
 <div class="teacher-area pb-150">
-    <div class="container"> 
+    <div class="container">
         <div class="row">
             <div class="col-xs-12">
                 <div class="section-title text-center">
@@ -55,7 +55,7 @@
         </div>
         <div class="row">
             @await Component.InvokeAsync("Teacher", 4)
-        </div> 
+        </div>
     </div>
 </div>
 <!-- Teacher End -->
@@ -73,7 +73,7 @@
                             <div class="testimonial-content">
                                 <p> @Model.Testimonial.Title</p>
                                 <h4>@Model.Testimonial.Name</h4>
-                                <h5>@Model.Testimonial.Position</h5> 
+                                <h5>@Model.Testimonial.Position</h5>
                             </div>
                         </div>
                     </div>
@@ -98,7 +98,7 @@
                         </div>
                     </div>
                 </div>
-            </div> 
+            </div>
             <div class="col-md-6 col-sm-6 col-xs-12">
                 <div class="notice-left-wrapper">
                     <h3>notice board</h3>
@@ -108,8 +108,8 @@
                             <div class="single-notice-left mb-23 pb-20">
                                 <h4>@notice.Date.ToString("dddd, dd MMMM yyyy")</h4>
                                 <p>@notice.Description</p>
-                            </div> 
-                        }  
+                            </div>
+                        }
                     </div>
                 </div>
             </div>
@@ -117,3 +117,6 @@
     </div>
 </section>
 <!-- Notice End -->
+<!-- Subscribe Start -->
+<partial name="_partialSubscribe" />
+<!-- Subscribe End --> 
