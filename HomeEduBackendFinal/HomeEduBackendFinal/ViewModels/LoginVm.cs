@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace HomeEduBackendFinal.ViewModels.User
+namespace HomeEduBackendFinal.ViewModels
 {
     public class LoginVm
     {
@@ -14,7 +14,7 @@ namespace HomeEduBackendFinal.ViewModels.User
         [Required, DataType(DataType.Password)]
         public string Password { get; set; }
 
-        [Display(Name = "Remember me?")] 
+        [Display(Name = "Remember me?")]
         public bool RememberMe { get; set; } 
     }
 }

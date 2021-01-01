@@ -1,6 +1,6 @@
-﻿@model LoginVm  
+﻿@model RegisterVm
 @{
-    ViewData["Title"] = "Login";
+    ViewData["Title"] = "Register";
 }
 
 <!-- Banner Area Start -->
@@ -11,49 +11,53 @@
                 <div class="col-xs-12">
                     <div class="banner-content-wrapper">
                         <div class="banner-content">
-                            <h2>login</h2>
+                            <h2>sign up</h2>
                         </div>
                     </div>
                 </div>
             </div>
-        </div> 
+        </div>
     </div>
 </div>
 <!-- Banner Area End -->
-<!-- Login start -->
-<div class="login-area pt-150 pb-150">
+<!-- Register start -->
+<div class="register-area pt-150 pb-150">
     <div class="container">
         <div class="row">
             <div class="col-md-6 col-md-offset-3 text-center">
                 <div class="login">
                     <div class="login-form-container">
                         <div class="login-text">
-                            <h2>login</h2>
+                            <h2>sign up</h2>
                             <div class="text-danger" asp-validation-summary="ModelOnly"></div>
                         </div>
                         <div class="login-form">
                             <form method="post">
+                                <input asp-for="Fullname" placeholder="Fullname">
+                                <span class="text-danger" asp-validation-for="Fullname"></span>
+                                <input asp-for="Username" placeholder="Username">
+                                <span v asp-validation-for="Username"></span>
                                 <input asp-for="Email" placeholder="Email">
                                 <span class="text-danger" asp-validation-for="Email"></span>
                                 <input asp-for="Password" placeholder="Password">
                                 <span class="text-danger" asp-validation-for="Password"></span>
+                                <input asp-for="CheckPassword" placeholder="Checkpassword">
+                                <span class="text-danger" asp-validation-for="CheckPassword"></span>
+
                                 <div class="button-box">
-                                    <div class="login-toggle-btn">
-                                        <input asp-for="RememberMe" name="RememberMe">
-                                        <label asp-for="RememberMe"></label>
-                                    </div>
-                                    <button type="submit" class="default-btn">Login</button>
-                                    <a asp-controller="account" asp-action="Register" type="submit" class="default-btn " style="background:green;color:white;margin-left:50px">SignUp</a>
+
+                                    <button type="submit" class="default-btn">sign up</button>
+                                    <a asp-controller="account" asp-action="Login" type="submit" class="default-btn " style="background:green;color:white;margin-left:50px">Go To Login</a>
                                 </div>
                             </form>
                         </div>
                     </div>
-                </div> 
+                </div>
             </div>
         </div>
     </div>
 </div>
-<!-- Login end -->
+<!-- Register end -->
 <!-- Subscribe Start -->
 <partial name="_partialSubscribe" />
 <!-- Subscribe End -->

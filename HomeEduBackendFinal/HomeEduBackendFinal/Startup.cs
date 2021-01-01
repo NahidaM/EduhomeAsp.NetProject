@@ -61,8 +61,8 @@ namespace HomeEduBackendFinal
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseSession();
-            app.UseStaticFiles();
+
+            app.UseStaticFiles(); 
             app.UseRouting();
             app.UseAuthentication();
             app.UseAuthorization();
