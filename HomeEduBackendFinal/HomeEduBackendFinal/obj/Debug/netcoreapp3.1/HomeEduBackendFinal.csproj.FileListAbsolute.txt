@@ -280,3 +280,4 @@ C:\Users\ACER\Desktop\EduhomeAsp.NetProject\HomeEduBackendFinal\HomeEduBackendFi
 C:\Users\ACER\Desktop\EduhomeAsp.NetProject\HomeEduBackendFinal\HomeEduBackendFinal\obj\Debug\netcoreapp3.1\Razor\Views\Shared\Components\Teacher\Default.cshtml.g.cs
 C:\Users\ACER\Desktop\EduhomeAsp.NetProject\HomeEduBackendFinal\HomeEduBackendFinal\obj\Debug\netcoreapp3.1\Razor\Views\Teacher\Detail.cshtml.g.cs
 C:\Users\ACER\Desktop\EduhomeAsp.NetProject\HomeEduBackendFinal\HomeEduBackendFinal\obj\Debug\netcoreapp3.1\Razor\Views\Event\Detail.cshtml.g.cs
+C:\Users\ACER\Desktop\EduhomeAsp.NetProject\HomeEduBackendFinal\HomeEduBackendFinal\obj\Debug\netcoreapp3.1\Razor\Views\Shared\_partialBanner.cshtml.g.cs

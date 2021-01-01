@@ -15,10 +15,10 @@ namespace HomeEduBackendFinal.Controllers
             _db = db;
         }
 
-        public IActionResult Index()
-        {
-            return View();
-        }
+        //public IActionResult Index()
+        //{
+        //    return View();
+        //}
 
         public IActionResult Index(int? page) 
         {
