@@ -32,6 +32,7 @@ namespace HomeEduBackendFinal.DAL
         public DbSet<TeacherUser> TeacherUsers { get; set; } 
         public DbSet<Skill> Skills { get; set; }
         public DbSet<Speaker> Speakers { get; set; }
-        public DbSet<SpeakerEvent> SpeakerEvents { get; set; } 
+        public DbSet<SpeakerEvent> SpeakerEvents { get; set; }
+        public DbSet<Contact> Contacts { get; set; } 
     }
 }
