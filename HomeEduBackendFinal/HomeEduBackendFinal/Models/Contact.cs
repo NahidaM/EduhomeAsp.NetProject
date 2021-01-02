@@ -14,6 +14,6 @@ namespace HomeEduBackendFinal.Models
         [NotMapped]
         public IFormFile Photo { get; set; }
         public string TitleHeader { get; set; }
-        public string Info { get; set; }  
+        public string Info { get; set; } 
     }
 }
