@@ -1,8 +1,10 @@
 ﻿using HomeEduBackendFinal.DAL;
+using HomeEduBackendFinal.Helpers;
 using HomeEduBackendFinal.Models;
 using HomeEduBackendFinal.ViewModels;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -64,6 +66,68 @@ namespace HomeEduBackendFinal.Areas.Admin.Controllers
             return RedirectToAction("Index"); 
         }
 
-      
+        public IActionResult Detail(int? id)
+        {
+            if (id == null) return View();
+            Speaker dbspeaker = _db.Speakers.FirstOrDefault(p => p.Id == id);
+
+            return View(dbspeaker);
+        }
+
+        public IActionResult Update(int? id)
+        {
+            if (id == null) return View();
+            Speaker speaker = _db.Speakers.FirstOrDefault(p => p.Id == id);
+            if (speaker == null) return View();
+            return View(speaker);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Update(SpeakerEditVM speakerEditVM)
+        {
+
+            if (!ModelState.IsValid) return View();
+            Speaker dbSpeaker = await _db.Speakers.FirstOrDefaultAsync(x => x.Id == speakerEditVM.Id);
+            if (dbSpeaker == null) return NotFound();
+            dbSpeaker.Name = speakerEditVM.Name;
+            dbSpeaker.Position = speakerEditVM.Position;
+            if (speakerEditVM.Photo != null)
+            {
+                Helper.DeleteImage(_env.WebRootPath, "img/teacher", dbSpeaker.Image); 
+                //dbSpeaker.Image = await speakerEditVM.Photo.SaveImg(_env.WebRootPath, "img/teacher");
+
+            }
+
+            await _db.SaveChangesAsync();
+            await Task.Delay(1000);
+
+            return RedirectToAction(nameof(Index));
+        }
+
+        public IActionResult Delete(int? id)
+        {
+            if (id == null) return NotFound();
+            Speaker dbSpeaker = _db.Speakers.FirstOrDefault(s => s.Id == id);
+            if (dbSpeaker == null) return NotFound();
+
+            return View(dbSpeaker);
+        }
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [ActionName("Delete")]
+        public async Task<IActionResult> DeleteSpeaker(int? id)
+        {
+            if (id == null) return NotFound();
+            Speaker dbSpeaker = _db.Speakers.FirstOrDefault(s => s.Id == id);
+            if (dbSpeaker == null) return NotFound();
+            dbSpeaker.IsDeleted = true;
+            await _db.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+        } 
+
+
     }
 }
