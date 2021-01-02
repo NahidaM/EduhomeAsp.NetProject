@@ -28,64 +28,64 @@ namespace HomeEduBackendFinal.Controllers
             return View();
         }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Login(LoginVm login)
-        {
-            if (!ModelState.IsValid) return View();
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> Login(LoginVm login)
+        //{ 
+        //    if (!ModelState.IsValid) return View();
 
-            AppUser loginUser = await _userManager.FindByEmailAsync(login.Email);
-            if (loginUser == null)
-            {
-                ModelState.AddModelError("", "Email or password wrong!");
-                return View(login);
-            }
-            if (!loginUser.IsActivated)
-            {
-                ModelState.AddModelError("", "Emaliniz block olunub");
-                return View(login);
-            }
-
-
-            var signInResult = await _signInManager.PasswordSignInAsync(loginUser, login.Password, login.RememberMe, true);
-            if (signInResult.IsLockedOut)
-            {
-                ModelState.AddModelError("", "The account is locked out!");
-                return View(login);
-            }
-
-            if (!signInResult.Succeeded)
-            {
-                ModelState.AddModelError("", "Email or password wrong!");
-                return View(login);
-            }
+        //    AppUser loginUser = await _userManager.FindByEmailAsync(login.Email);
+        //    if (loginUser == null)
+        //    {
+        //        ModelState.AddModelError("", "Email or password wrong!");
+        //        return View(login);
+        //    }
+        //    if (!loginUser.IsActivated)
+        //    {
+        //        ModelState.AddModelError("", "Emaliniz block olunub");
+        //        return View(login);
+        //    }
 
 
-            var roles = await _userManager.GetRolesAsync(loginUser);
+        //    var signInResult = await _signInManager.PasswordSignInAsync(loginUser, login.Password, login.RememberMe, true);
+        //    if (signInResult.IsLockedOut)
+        //    {
+        //        ModelState.AddModelError("", "The account is locked out!");
+        //        return View(login);
+        //    }
 
-            foreach (var item in roles)
-            {
-                if (item == "Admin")
-                {
-                    return RedirectToAction("Index", "Dashboard", new { area = "Admin" });
-                }
-
-                if (item == "CourseManager")
-                {
-                    return RedirectToAction("Index", "Course", new { area = "Admin" });
-                }
-            }
+        //    if (!signInResult.Succeeded)
+        //    {
+        //        ModelState.AddModelError("", "Email or password wrong!");
+        //        return View(login);
+        //    }
 
 
-            return RedirectToAction("Index", "Home");
-        }
+        //    var roles = await _userManager.GetRolesAsync(loginUser);
+
+        //    foreach (var item in roles)
+        //    {
+        //        if (item == "Admin")
+        //        {
+        //            return RedirectToAction("Index", "Dashboard", new { area = "Admin" });
+        //        }
+
+        //        if (item == "CourseManager")
+        //        {
+        //            return RedirectToAction("Index", "Course", new { area = "Admin" });
+        //        }
+        //    }
 
 
-        public IActionResult LogOut()
-        {
-            _signInManager.SignOutAsync();
-            return RedirectToAction("Index", "Home");
-        }
+        //    return RedirectToAction("Index", "Home");
+        //}
+
+
+        //public IActionResult LogOut()
+        //{
+        //    _signInManager.SignOutAsync();
+        //    return RedirectToAction("Index", "Home");
+        //}
 
 
         public IActionResult Register()
@@ -94,34 +94,34 @@ namespace HomeEduBackendFinal.Controllers
         }
 
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Register(RegisterVm register)
-        {
-            if (!ModelState.IsValid) return View();
-            AppUser newUser = new AppUser
-            {
-                Fullname = register.Fullname,
-                Email = register.Email,
-                UserName = register.Username
-            };
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> Register(RegisterVm register)
+        //{
+        //    if (!ModelState.IsValid) return View();
+        //    AppUser newUser = new AppUser
+        //    {
+        //        Fullname = register.Fullname,
+        //        Email = register.Email,
+        //        UserName = register.Username
+        //    };
 
-            IdentityResult identityResult = await _userManager.CreateAsync(newUser, register.Password);
-            if (!identityResult.Succeeded)
-            {
-                foreach (var error in identityResult.Errors)
-                {
-                    ModelState.AddModelError("", error.Description);
-                }
-                return View(register);
-            }
-            newUser.IsActivated = true;
-            await _userManager.AddToRoleAsync(newUser, "Member");
+        //    IdentityResult identityResult = await _userManager.CreateAsync(newUser, register.Password);
+        //    if (!identityResult.Succeeded)
+        //    {
+        //        foreach (var error in identityResult.Errors)
+        //        {
+        //            ModelState.AddModelError("", error.Description);
+        //        }
+        //        return View(register);
+        //    }
+        //    newUser.IsActivated = true;
+        //    await _userManager.AddToRoleAsync(newUser, "Member");
 
-            await _signInManager.SignInAsync(newUser, true);
-            return RedirectToAction("Index", "Home");
+        //    await _signInManager.SignInAsync(newUser, true);
+        //    return RedirectToAction("Index", "Home");
 
-        }
+        //}
 
 
         //public async Task CreateRole()
