@@ -302,3 +302,5 @@ C:\Users\ACER\Desktop\EduhomeAsp.NetProject\HomeEduBackendFinal\HomeEduBackendFi
 C:\Users\ACER\Desktop\EduhomeAsp.NetProject\HomeEduBackendFinal\HomeEduBackendFinal\obj\Debug\netcoreapp3.1\Razor\Areas\Admin\Views\Slider\Create.cshtml.g.cs
 C:\Users\ACER\Desktop\EduhomeAsp.NetProject\HomeEduBackendFinal\HomeEduBackendFinal\obj\Debug\netcoreapp3.1\Razor\Areas\Admin\Views\Slider\Delete.cshtml.g.cs
 C:\Users\ACER\Desktop\EduhomeAsp.NetProject\HomeEduBackendFinal\HomeEduBackendFinal\obj\Debug\netcoreapp3.1\Razor\Areas\Admin\Views\Slider\Update.cshtml.g.cs
+C:\Users\ACER\Desktop\EduhomeAsp.NetProject\HomeEduBackendFinal\HomeEduBackendFinal\obj\Debug\netcoreapp3.1\Razor\Areas\Admin\Views\Bios\Index.cshtml.g.cs
+C:\Users\ACER\Desktop\EduhomeAsp.NetProject\HomeEduBackendFinal\HomeEduBackendFinal\obj\Debug\netcoreapp3.1\Razor\Areas\Admin\Views\Bios\Update.cshtml.g.cs

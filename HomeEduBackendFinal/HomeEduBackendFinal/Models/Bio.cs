@@ -18,6 +18,6 @@ namespace HomeEduBackendFinal.Models
         public string Pinterest { get; set; }
         [NotMapped]
 
-        public IFormFile Photo { get; set; }
+        public IFormFile Photo { get; set; } 
     }
 }
