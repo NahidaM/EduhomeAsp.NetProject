@@ -28,7 +28,7 @@ namespace HomeEduBackendFinal.Areas.Admin.Controllers
 
         public IActionResult Create()
         {
-            //ViewBag.Teachers = _db.Teachers.ToList();
+            
             ViewBag.Teachers = _db.Teachers.ToList();
             return View();
         }
@@ -37,7 +37,7 @@ namespace HomeEduBackendFinal.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(Skill skill)
         {
-            //ViewBag.Teachers = _db.Teachers.ToList();
+           
             ViewBag.Teachers = _db.Teachers.ToList();
             if (!ModelState.IsValid) return View();
 
@@ -65,29 +65,6 @@ namespace HomeEduBackendFinal.Areas.Admin.Controllers
 
 
 
-        //public async Task<IActionResult> Delete(int? id)
-        //{
-        //    if (id == null) return NotFound();
-        //    Slider slider = await _db.Sliders.FindAsync(id);
-        //    if (slider == null) return NotFound();
-        //    return View(slider);
-        //}
-
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //[ActionName("Delete")]
-        //public async Task<IActionResult> DeletePost(int? id)
-        //{
-        //    if (id == null) return NotFound();
-        //    Slider slider = await _db.Sliders.FindAsync(id);
-        //    if (slider == null) return NotFound();
-        //    string path = Path.Combine("img", "slider");
-        //    Helper.DeleteImage(_env.WebRootPath, path, slider.Image);
-
-        //    _db.Sliders.Remove(slider);
-        //    await _db.SaveChangesAsync();
-        //    return RedirectToAction(nameof(Index));
-        //}
 
         public async Task<IActionResult> Update(int? id)
         {
