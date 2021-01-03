@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using HomeEduBackendFinal.Models;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -25,7 +26,7 @@ namespace HomeEduBackendFinal.ViewModels.Course
         public string Language { get; set; }
         public int StudentsCount { get; set; }
         public string Assesments { get; set; }
-        //public ICollection<CourseUser> CourseUsers { get; set; } 
+        public ICollection<CourseUser> CourseUsers { get; set; } 
         [NotMapped]
         [Required]
         public IFormFile Photo { get; set; }

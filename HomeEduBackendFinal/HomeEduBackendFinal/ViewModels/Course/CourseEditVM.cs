@@ -36,7 +36,7 @@ namespace HomeEduBackendFinal.ViewModels.Course
         [Required]
         public string Assesments { get; set; }
 
-        //public ICollection<CourseUser> CourseUsers { get; set; }  
+        public ICollection<CourseUser> CourseUsers { get; set; }   
         public ICollection<CourseCategory> CourseCategories { get; set; }
         [NotMapped]
         public IFormFile Photo { get; set; }
