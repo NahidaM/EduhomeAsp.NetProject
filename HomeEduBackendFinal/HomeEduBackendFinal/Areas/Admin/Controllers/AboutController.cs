@@ -1,6 +1,7 @@
 ﻿using HomeEduBackendFinal.DAL;
 using HomeEduBackendFinal.Helpers;
 using HomeEduBackendFinal.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -11,6 +12,8 @@ using System.Threading.Tasks;
 
 namespace HomeEduBackendFinal.Areas.Admin.Controllers
 {
+    [Area("Admin")]
+    [Authorize(Roles = "Admin")] 
     public class AboutController : Controller
     {
         private readonly AppDbContext _db;

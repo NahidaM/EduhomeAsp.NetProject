@@ -2,6 +2,7 @@
 using HomeEduBackendFinal.Helpers;
 using HomeEduBackendFinal.Models;
 using HomeEduBackendFinal.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -12,6 +13,8 @@ using System.Threading.Tasks;
 
 namespace HomeEduBackendFinal.Areas.Admin.Controllers
 {
+    [Area("Admin")]
+    [Authorize(Roles = "Admin")] 
     public class SpeakerController : Controller
     {
         private readonly AppDbContext _db;

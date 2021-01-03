@@ -3,6 +3,7 @@ using HomeEduBackendFinal.Extentions;
 using HomeEduBackendFinal.Helpers;
 using HomeEduBackendFinal.Models;
 using HomeEduBackendFinal.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -13,7 +14,8 @@ using System.Threading.Tasks;
 
 namespace HomeEduBackendFinal.Areas.Admin.Controllers
 {
-    [Area("Admin")] 
+    [Area("Admin")]
+    [Authorize(Roles = "Admin")]
     public class SliderController : Controller
     {
         private readonly AppDbContext _db;

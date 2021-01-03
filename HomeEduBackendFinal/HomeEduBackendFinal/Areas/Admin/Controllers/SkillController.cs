@@ -1,5 +1,6 @@
 ﻿using HomeEduBackendFinal.DAL;
 using HomeEduBackendFinal.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -9,8 +10,8 @@ using System.Threading.Tasks;
 
 namespace HomeEduBackendFinal.Areas.Admin.Controllers
 {
-
-    [Area("Admin")] 
+    [Area("Admin")]
+    [Authorize(Roles = "Admin")]
     public class SkillController : Controller
     {
         private readonly AppDbContext _db;

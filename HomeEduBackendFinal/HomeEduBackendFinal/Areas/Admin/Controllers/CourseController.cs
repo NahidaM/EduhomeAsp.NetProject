@@ -16,6 +16,7 @@ using System.Threading.Tasks;
 namespace HomeEduBackendFinal.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(Roles = "Admin,CourseManager")]  
     public class CourseController : Controller
     {
         private readonly AppDbContext _db;

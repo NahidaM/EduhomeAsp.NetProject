@@ -8,8 +8,8 @@ namespace HomeEduBackendFinal.Models
     public class TeacherUser
     {
         public int Id { get; set; }
-        //public string AppUserId { get; set; }
-        //public AppUser AppUser { get; set; }
+        public string AppUserId { get; set; }
+        public AppUser AppUser { get; set; }
         public int TeacherId { get; set; }
         public Teacher Teacher { get; set; } 
     }
