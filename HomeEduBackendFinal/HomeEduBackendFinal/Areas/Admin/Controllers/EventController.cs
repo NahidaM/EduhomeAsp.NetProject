@@ -14,6 +14,7 @@ using System.Threading.Tasks;
 
 namespace HomeEduBackendFinal.Areas.Admin.Controllers
 {
+    [Area("Admin")] 
     public class EventController : Controller
     {
 
