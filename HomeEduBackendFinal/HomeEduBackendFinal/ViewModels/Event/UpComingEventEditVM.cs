@@ -1,27 +1,34 @@
 ﻿using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace HomeEduBackendFinal.Models
+namespace HomeEduBackendFinal.ViewModels.Event
 {
-    public class UpCommingEvent
+    public class UpComingEventEditVM
     {
         public int Id { get; set; }
+        [Required]
         public DateTime Month { get; set; }
+        [Required]
         public DateTime Day { get; set; }
+        [Required]
         public string Title { get; set; }
+        [Required]
         public string Location { get; set; }
-        public DateTime StartTime { get; set; } 
+        [Required]
+        public DateTime StartTime { get; set; }
+        [Required]
         public DateTime EndTime { get; set; }
-        public string Image { get; set; }
+        [Required]
+
         public string Description { get; set; }
-        [NotMapped]
-        public IFormFile Photo { get; set; }
-        public ICollection<SpeakerEvent> SpeakerEvents { get; set; }
         public int CategoryId { get; set; }
-        public virtual Category Category { get; set; } 
+
+        public IFormFile Photo { get; set; }
+        public List<int> SpeakersId { get; set; }
+        public string Image { get; set; } 
     }
 }

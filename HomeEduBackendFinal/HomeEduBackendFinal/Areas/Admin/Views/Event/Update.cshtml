@@ -1,0 +1,92 @@
+﻿@model UpCommingEvent 
+@{
+    ViewData["Title"] = "Update";
+}
+
+<div class="row">
+    <div class="col-12 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">Update Event</h4>
+                <input type="hidden" name="name" asp-for="Id" />
+                <form class="forms-sample">
+                    <div class="form-group">
+                        <label asp-for="Photo"></label>
+                        <input asp-for="Photo" class="form-control" accept="image/*">
+                        <span asp-validation-for="Photo" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Month"></label>
+                        <input asp-for="Month" class="form-control" placeholder="month">
+                        <span asp-validation-for="Month" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Day"></label>
+                        <input asp-for="Day" class="form-control" placeholder="day">
+                        <span asp-validation-for="Day" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Title"></label>
+                        <input asp-for="Title" class="form-control" placeholder="Postion">
+                        <span asp-validation-for="Title" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Location"></label>
+                        <input asp-for="Location" class="form-control" placeholder="location">
+                        <span asp-validation-for="Location" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Description"></label>
+                        <input asp-for="Description" class="form-control" placeholder="location">
+                        <span asp-validation-for="Description" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label class="d-block">Speaker</label>
+
+                        <div class="form-group">
+                            @foreach (var speaker in ViewBag.Speaker)
+                            {
+
+                                <input type="checkbox" class="speakerId" value="@speaker.Id"
+                                       @(Model.SpeakerEvents.Select(x => x.SpeakerId).ToList().Contains(speaker.Id) ? "checked=\"checked\"" : "") />
+                                <label>@speaker.Name</label><br />
+
+                            }
+                        </div>
+                        <div class="form-group">
+
+                            <select asp-for="@Model.CategoryId"
+                                    asp-items="@ViewBag.Category">
+                            </select>
+                        </div>
+
+
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="StartTime"></label>
+                        <input asp-for="StartTime" class="form-control" placeholder="startime">
+                        <span asp-validation-for="StartTime" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="EndTime"></label>
+                        <input asp-for="EndTime" class="form-control" placeholder="endtime">
+                        <span asp-validation-for="EndTime" class="text-danger"></span>
+                    </div>
+
+                    <button class="btn btn-success mr-2" id="updatebtn">Update</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <partial name="_Validation" />
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="https://rawgit.com/notifyjs/notifyjs/master/dist/notify.js"></script>
+   
+
+}
+
+

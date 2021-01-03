@@ -12,12 +12,12 @@ using System.Threading.Tasks;
 
 namespace HomeEduBackendFinal.Areas.Admin.Controllers
 {
-    public class SpeakController : Controller
+    public class SpeakerController : Controller
     {
         private readonly AppDbContext _db;
         private readonly IHostingEnvironment _env;
 
-        public SpeakController(AppDbContext db, IHostingEnvironment env)
+        public SpeakerController(AppDbContext db, IHostingEnvironment env)
         {
             _db = db;
             _env = env;

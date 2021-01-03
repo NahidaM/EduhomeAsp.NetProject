@@ -1,0 +1,111 @@
+﻿@model IEnumerable<UpCommingEvent>
+@{
+    ViewData["Title"] = "Index";
+}
+
+<div class="row">
+    <div class="col-lg-12 grid-margin stretch-card">
+        <div class="card">
+            <a asp-action="Create" class="btn btn-success mr-2 create-book">create event</a>
+            <div class="card-body">
+                <h4 class="card-title">Events Table</h4>
+
+                @if (Model.Count() != 0)
+                {
+                    <div class="table-responsive pt-3">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        Image
+                                    </th>
+                                    <th>
+                                        Title
+                                    </th>
+                                    <th>
+                                        Startime
+                                    </th>
+                                    <th>
+                                        Endtime
+                                    </th>
+                                    <th>
+                                        Location
+                                    </th>
+                                    <th>
+                                        Speaker
+                                    </th>
+                                    <th>
+                                        Category
+                                    </th>
+                                    <th>
+                                        Setting
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (UpCommingEvent item in Model) 
+                                {
+                                    <tr>
+                                        <td>
+                                            <img src="~/img/event/@item.Image" style="width:200px;height:150px" />
+                                        </td>
+                                        <td>
+                                            @item.Title
+                                        </td>
+                                        <td>
+                                            @item.StartTime
+                                        </td>
+                                        <td>
+                                            @item.EndTime
+                                        </td>
+                                        <td>
+                                            @item.Location
+                                        </td>
+                                        <td>
+                                            <ul>
+                                                @for (int i = 0; i < item.SpeakerEvents.Count(); i++)
+                                                {
+                                                    if (item.SpeakerEvents.ElementAt(i) != item.SpeakerEvents.ElementAt(item.SpeakerEvents.Count() - 1))
+                                                    {
+                                                        <li style="list-style:none">
+                                                            @item.SpeakerEvents.ElementAt(i).Speaker.Name
+                                                        <span>,<br /></span>
+                                                    </li>
+
+                                                }
+                                                else
+                                                {
+                                                    <li style="list-style:none">@item.SpeakerEvents.ElementAt(i).Speaker.Name</li>
+
+                                                }
+
+                                            }
+                                            </ul>
+                                        </td>
+                                        <td>
+                                            @item.Category.Name
+                                        </td>
+                                        <td>
+                                            <a asp-action="Detail" asp-route-id="@item.Id" class="btn btn-success">
+                                                <i class="mdi mdi-account-card-details"></i>
+                                            </a>
+                                            <a asp-action="Update" asp-route-id="@item.Id" class="btn btn-warning">
+                                                <i class="mdi mdi-table-edit"></i>
+                                            </a>
+                                            <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger">
+                                                <i class="mdi mdi-delete"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                }
+               
+            </div>
+        </div>
+    </div>
+</div>
+
+

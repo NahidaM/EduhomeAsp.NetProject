@@ -311,11 +311,6 @@ C:\Users\ACER\Desktop\EduhomeAsp.NetProject\HomeEduBackendFinal\HomeEduBackendFi
 C:\Users\ACER\Desktop\EduhomeAsp.NetProject\HomeEduBackendFinal\HomeEduBackendFinal\obj\Debug\netcoreapp3.1\Razor\Areas\Admin\Views\Skill\Index.cshtml.g.cs
 C:\Users\ACER\Desktop\EduhomeAsp.NetProject\HomeEduBackendFinal\HomeEduBackendFinal\obj\Debug\netcoreapp3.1\Razor\Areas\Admin\Views\Skill\Create.cshtml.g.cs
 C:\Users\ACER\Desktop\EduhomeAsp.NetProject\HomeEduBackendFinal\HomeEduBackendFinal\obj\Debug\netcoreapp3.1\Razor\Areas\Admin\Views\Skill\Update.cshtml.g.cs
-C:\Users\ACER\Desktop\EduhomeAsp.NetProject\HomeEduBackendFinal\HomeEduBackendFinal\obj\Debug\netcoreapp3.1\Razor\Areas\Admin\Views\Speak\Index.cshtml.g.cs
-C:\Users\ACER\Desktop\EduhomeAsp.NetProject\HomeEduBackendFinal\HomeEduBackendFinal\obj\Debug\netcoreapp3.1\Razor\Areas\Admin\Views\Speak\Create.cshtml.g.cs
-C:\Users\ACER\Desktop\EduhomeAsp.NetProject\HomeEduBackendFinal\HomeEduBackendFinal\obj\Debug\netcoreapp3.1\Razor\Areas\Admin\Views\Speak\Detail.cshtml.g.cs
-C:\Users\ACER\Desktop\EduhomeAsp.NetProject\HomeEduBackendFinal\HomeEduBackendFinal\obj\Debug\netcoreapp3.1\Razor\Areas\Admin\Views\Speak\Update.cshtml.g.cs
-C:\Users\ACER\Desktop\EduhomeAsp.NetProject\HomeEduBackendFinal\HomeEduBackendFinal\obj\Debug\netcoreapp3.1\Razor\Areas\Admin\Views\Speak\Delete.cshtml.g.cs
 C:\Users\ACER\Desktop\EduhomeAsp.NetProject\HomeEduBackendFinal\HomeEduBackendFinal\obj\Debug\netcoreapp3.1\Razor\Areas\Admin\Views\Testimonial\Index.cshtml.g.cs
 C:\Users\ACER\Desktop\EduhomeAsp.NetProject\HomeEduBackendFinal\HomeEduBackendFinal\obj\Debug\netcoreapp3.1\Razor\Areas\Admin\Views\Testimonial\Update.cshtml.g.cs
 C:\Users\ACER\Desktop\EduhomeAsp.NetProject\HomeEduBackendFinal\HomeEduBackendFinal\obj\Debug\netcoreapp3.1\Razor\Areas\Admin\Views\Testimonial\Create.cshtml.g.cs
@@ -326,3 +321,12 @@ C:\Users\ACER\Desktop\EduhomeAsp.NetProject\HomeEduBackendFinal\HomeEduBackendFi
 C:\Users\ACER\Desktop\EduhomeAsp.NetProject\HomeEduBackendFinal\HomeEduBackendFinal\obj\Debug\netcoreapp3.1\Razor\Areas\Admin\Views\WhyUs\Update.cshtml.g.cs
 C:\Users\ACER\Desktop\EduhomeAsp.NetProject\HomeEduBackendFinal\HomeEduBackendFinal\obj\Debug\netcoreapp3.1\Razor\Areas\Admin\Views\Course\Index.cshtml.g.cs
 C:\Users\ACER\Desktop\EduhomeAsp.NetProject\HomeEduBackendFinal\HomeEduBackendFinal\obj\Debug\netcoreapp3.1\Razor\Areas\Admin\Views\Course\Create.cshtml.g.cs
+C:\Users\ACER\Desktop\EduhomeAsp.NetProject\HomeEduBackendFinal\HomeEduBackendFinal\obj\Debug\netcoreapp3.1\Razor\Areas\Admin\Views\Speaker\Create.cshtml.g.cs
+C:\Users\ACER\Desktop\EduhomeAsp.NetProject\HomeEduBackendFinal\HomeEduBackendFinal\obj\Debug\netcoreapp3.1\Razor\Areas\Admin\Views\Speaker\Delete.cshtml.g.cs
+C:\Users\ACER\Desktop\EduhomeAsp.NetProject\HomeEduBackendFinal\HomeEduBackendFinal\obj\Debug\netcoreapp3.1\Razor\Areas\Admin\Views\Speaker\Detail.cshtml.g.cs
+C:\Users\ACER\Desktop\EduhomeAsp.NetProject\HomeEduBackendFinal\HomeEduBackendFinal\obj\Debug\netcoreapp3.1\Razor\Areas\Admin\Views\Speaker\Index.cshtml.g.cs
+C:\Users\ACER\Desktop\EduhomeAsp.NetProject\HomeEduBackendFinal\HomeEduBackendFinal\obj\Debug\netcoreapp3.1\Razor\Areas\Admin\Views\Speaker\Update.cshtml.g.cs
+C:\Users\ACER\Desktop\EduhomeAsp.NetProject\HomeEduBackendFinal\HomeEduBackendFinal\obj\Debug\netcoreapp3.1\Razor\Areas\Admin\Views\Event\Index.cshtml.g.cs
+C:\Users\ACER\Desktop\EduhomeAsp.NetProject\HomeEduBackendFinal\HomeEduBackendFinal\obj\Debug\netcoreapp3.1\Razor\Areas\Admin\Views\Event\Create.cshtml.g.cs
+C:\Users\ACER\Desktop\EduhomeAsp.NetProject\HomeEduBackendFinal\HomeEduBackendFinal\obj\Debug\netcoreapp3.1\Razor\Areas\Admin\Views\Event\Detail.cshtml.g.cs
+C:\Users\ACER\Desktop\EduhomeAsp.NetProject\HomeEduBackendFinal\HomeEduBackendFinal\obj\Debug\netcoreapp3.1\Razor\Areas\Admin\Views\Event\Update.cshtml.g.cs

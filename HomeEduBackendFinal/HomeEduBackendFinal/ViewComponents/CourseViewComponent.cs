@@ -15,11 +15,11 @@ namespace HomeEduBackendFinal.ViewComponents
         {
             _db = db;
         }
-        public async Task<IViewComponentResult> InvokeAsync(int take = 6)
-        {
-            List<Course> model = _db.Courses.Take(take).ToList();
-            return View(await Task.FromResult(model));
-        } 
+        //public async Task<IViewComponentResult> InvokeAsync(int take = 6)
+        //{
+        //    List<Course> model = _db.Courses.Take(take).ToList();
+        //    return View(await Task.FromResult(model));
+        //} 
     
     }
 }

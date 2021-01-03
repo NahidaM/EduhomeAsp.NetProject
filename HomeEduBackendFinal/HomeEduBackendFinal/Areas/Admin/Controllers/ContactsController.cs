@@ -12,11 +12,11 @@ using System.Threading.Tasks;
 namespace HomeEduBackendFinal.Areas.Admin.Controllers
 {
     [Area("Admin")] 
-    public class ContactController : Controller
+    public class ContactsController : Controller
     {
         private readonly AppDbContext _db;
         private readonly IHostingEnvironment _env;
-        public ContactController(AppDbContext db, IHostingEnvironment env)
+        public ContactsController(AppDbContext db, IHostingEnvironment env)
         {
             _db = db;
             _env = env;
