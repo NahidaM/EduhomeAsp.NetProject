@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 namespace HomeEduBackendFinal.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    //[Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Admin")]
     public class RolesController : Controller
     {
         private readonly SignInManager<AppUser> _signInManager;
@@ -82,44 +82,44 @@ namespace HomeEduBackendFinal.Areas.Admin.Controllers
             return View(await _userManager.Users.ToListAsync());
         }
 
-         
-        //public async Task<IActionResult> Edit(string userid)
-        //{
-        //    var user = await _userManager.FindByIdAsync(userid);
 
-        //    if (user != null)
-        //    {
-        //        var userRoles = await _userManager.GetRolesAsync(user);
-        //        var roles = await _roleManager.Roles.ToListAsync();
+        public async Task<IActionResult> Edit(string userid)
+        {
+            var user = await _userManager.FindByIdAsync(userid);
 
-        //        var changeRole = new ChangeRoleVM
-        //        {
-        //            UserId = user.Id,
-        //            UserEmail = user.Email,
-        //            UserRoles = userRoles,
-        //            AllRoles = roles
-        //        };
+            if (user != null)
+            {
+                var userRoles = await _userManager.GetRolesAsync(user);
+                var roles = await _roleManager.Roles.ToListAsync();
 
-        //        return View(changeRole);
-        //    }
+                var changeRole = new ChangeRoleVM
+                {
+                    UserId = user.Id,
+                    UserEmail = user.Email,
+                    UserRoles = userRoles,
+                    AllRoles = roles
+                };
 
-        //    return NotFound();
+                return View(changeRole);
+            }
 
-        //}
+            return NotFound();
 
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> Edit(string userid, List<string> roles)
-        //{
-        //    var user = await _userManager.FindByIdAsync(userid);
-        //    if (user == null) return NotFound();
-        //    var userRoles = await _userManager.GetRolesAsync(user);
-        //    var allRoles = await _roleManager.Roles.ToListAsync();
-        //    var addedRoles = roles.Except(userRoles);
-        //    var removedRoles = userRoles.Except(roles);
-        //    await _userManager.AddToRolesAsync(user, addedRoles);
-        //    await _userManager.RemoveFromRolesAsync(user, removedRoles);
-        //    return RedirectToAction(nameof(UserList));
-        //}
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(string userid, List<string> roles)
+        {
+            var user = await _userManager.FindByIdAsync(userid);
+            if (user == null) return NotFound();
+            var userRoles = await _userManager.GetRolesAsync(user);
+            var allRoles = await _roleManager.Roles.ToListAsync();
+            var addedRoles = roles.Except(userRoles);
+            var removedRoles = userRoles.Except(roles);
+            await _userManager.AddToRolesAsync(user, addedRoles);
+            await _userManager.RemoveFromRolesAsync(user, removedRoles);
+            return RedirectToAction(nameof(UserList));
+        }
     }
 }
