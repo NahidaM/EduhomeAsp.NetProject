@@ -20,12 +20,7 @@ namespace HomeEduBackendFinal.ViewComponents
         }
         public async Task<IViewComponentResult> InvokeAsync()
         {
-            ViewBag.Fullname = "";
-            if (User.Identity.IsAuthenticated)
-            {
-                AppUser user = await _userManager.FindByNameAsync(User.Identity.Name);
-                ViewBag.Fullname = user.Fullname;
-            }
+            
 
             Bio model = _db.Bios.FirstOrDefault();
             return View(await Task.FromResult(model));

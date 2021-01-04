@@ -30,7 +30,7 @@ namespace HomeEduBackendFinal
             services.AddControllersWithViews();
             services.AddIdentity<AppUser, IdentityRole>(identityOptions =>
             {
-                identityOptions.Password.RequiredLength = 5;
+                identityOptions.Password.RequiredLength = 8;
                 identityOptions.Password.RequireNonAlphanumeric = true;
                 identityOptions.Password.RequireLowercase = true;
                 identityOptions.Password.RequireUppercase = true;
@@ -38,14 +38,17 @@ namespace HomeEduBackendFinal
 
                 identityOptions.User.RequireUniqueEmail = true;
 
-                identityOptions.Lockout.MaxFailedAccessAttempts = 3; 
-                identityOptions.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(10);
+
+
+                identityOptions.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
+                identityOptions.Lockout.MaxFailedAccessAttempts = 3;
                 identityOptions.Lockout.AllowedForNewUsers = true;
-            }).AddEntityFrameworkStores<AppDbContext>().AddDefaultTokenProviders()/*.AddErrorDescriber<IdentityErrosDescriptionAz>()*/;
+
+            }).AddDefaultTokenProviders().AddEntityFrameworkStores<AppDbContext>();/*.AddErrorDescriber<IdentityErrosDescriptionAz>()*/
            
             //services.AddScoped<IEmailService, EmailService>();
             //services.AddAutoMapper(typeof(MappingProfiles));
-            services.AddMvc();
+            //services.AddMvc();
             services.AddDbContext<AppDbContext>(options =>
             {
                 options.UseSqlServer(Configuration["ConnectionString:Default"]);
@@ -62,7 +65,9 @@ namespace HomeEduBackendFinal
             }
 
 
-            app.UseStaticFiles(); 
+            app.UseHttpsRedirection();
+            app.UseStaticFiles();
+
             app.UseRouting();
             app.UseAuthentication();
             app.UseAuthorization();
@@ -71,13 +76,11 @@ namespace HomeEduBackendFinal
             {
                 endpoints.MapControllerRoute(
                     "areas",
-                    "{area:exists}/{controller=Dashboard}/{action=Index}/{id?}"
+                    "{area:exists}/{controller=Category}/{action=Index}/{id?}"
                     );
-
                 endpoints.MapControllerRoute(
-                    "default",
-                    "{controller=Home}/{action=Index}/{id?}"
-                    );
+                     "default",
+                     "{controller=Home}/{action=Index}/{id?}");
             }); 
         }
     }

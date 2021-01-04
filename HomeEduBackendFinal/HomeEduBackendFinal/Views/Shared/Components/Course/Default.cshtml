@@ -1,16 +1,16 @@
-﻿@model IEnumerable<Course>
+﻿@model List<Course> 
 @{
     Layout = null;
 }
 <input type="hidden" id="hidden" value="course" />
 
-@foreach (var course in Model)
+@foreach (Course course in Model)
 {
     <div class="col-md-4 col-sm-6 col-xs-12" style="margin-top: 50px">
         <div class="single-course">
             <div class="course-img">
                 <a  asp-controller="Course" asp-action="Detail" asp-route-id="@course.Id ">
-                    <img  asp-controller="Course" asp-action="Detail" asp-route-id="@course.Id"  src="~/img/course/@course.Image" alt="course"> 
+                    <img  src="~/img/course/@course.Image" alt="course" > 
                     <div class="course-hover">
                         <i class="fa fa-link"></i>
                     </div>

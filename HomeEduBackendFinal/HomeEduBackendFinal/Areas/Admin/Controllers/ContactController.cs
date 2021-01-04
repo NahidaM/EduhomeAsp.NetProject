@@ -1,4 +1,5 @@
 ﻿using HomeEduBackendFinal.DAL;
+using HomeEduBackendFinal.Extentions;
 using HomeEduBackendFinal.Helpers;
 using HomeEduBackendFinal.Models;
 using Microsoft.AspNetCore.Authorization;
@@ -14,11 +15,11 @@ namespace HomeEduBackendFinal.Areas.Admin.Controllers
 {
     [Area("Admin")]
     [Authorize(Roles = "Admin")] 
-    public class ContactsController : Controller
+    public class ContactController : Controller
     {
         private readonly AppDbContext _db;
-        private readonly IHostingEnvironment _env;
-        public ContactsController(AppDbContext db, IHostingEnvironment env)
+        private readonly IWebHostEnvironment _env;
+        public ContactController(AppDbContext db, IWebHostEnvironment env)
         {
             _db = db;
             _env = env;
@@ -54,24 +55,24 @@ namespace HomeEduBackendFinal.Areas.Admin.Controllers
                     return View();
                 }
 
-                //if (!contact.Photo.IsImage())
-                //{
-                //    ModelState.AddModelError("Photo", "Zehmet olmasa shekil formati sechin");
-                //    return View();
-                //}
+                if (!contact.Photo.IsImage())
+                {
+                    ModelState.AddModelError("Photo", "Zehmet olmasa shekil formati sechin");
+                    return View();
+                }
 
-                //if (contact.Photo.MaxLength(2000))
-                //{
-                //    ModelState.AddModelError("Photo", "Shekilin olchusu max 2mg ola biler");
-                //    return View();
-                //}
+                if (contact.Photo.MaxLength(2000))
+                {
+                    ModelState.AddModelError("Photo", "Shekilin olchusu max 2mg ola biler");
+                    return View();
+                }
 
 
                 string path = Path.Combine("img", "contact");
                 Helper.DeleteImage(_env.WebRootPath, path, dbContact.Image);
 
-                //string fileName = await contact.Photo.SaveImg(_env.WebRootPath, path);
-                //dbContact.Image = fileName;
+                string fileName = await contact.Photo.SaveImg(_env.WebRootPath, path);
+                dbContact.Image = fileName;
 
             }
 

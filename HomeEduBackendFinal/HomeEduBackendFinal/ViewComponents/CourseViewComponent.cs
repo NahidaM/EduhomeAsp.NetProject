@@ -1,6 +1,7 @@
 ﻿using HomeEduBackendFinal.DAL;
 using HomeEduBackendFinal.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,11 +16,14 @@ namespace HomeEduBackendFinal.ViewComponents
         {
             _db = db;
         }
-        //public async Task<IViewComponentResult> InvokeAsync(int take = 6)
-        //{
-        //    List<Course> model = _db.Courses.Take(take).ToList();
-        //    return View(await Task.FromResult(model));
-        //} 
-    
+        public async Task<IViewComponentResult> InvokeAsync(int? take)
+        {
+            List<Course> model = _db.Courses
+                .Take((int)take).ToList();
+
+
+            return View(await Task.FromResult(model));
+        }
+
     }
 }

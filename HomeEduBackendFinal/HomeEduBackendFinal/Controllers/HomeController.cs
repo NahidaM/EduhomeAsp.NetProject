@@ -18,7 +18,7 @@ namespace HomeEduBackendFinal.Controllers
         {
             _db = db;
         }
-        public async Task<IActionResult> Index() 
+        public IActionResult Index() 
         { 
             HomeVM homeVM = new HomeVM
             {

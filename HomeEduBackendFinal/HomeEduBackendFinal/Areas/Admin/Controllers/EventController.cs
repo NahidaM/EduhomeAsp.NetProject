@@ -1,4 +1,5 @@
 ﻿using HomeEduBackendFinal.DAL;
+using HomeEduBackendFinal.Extentions;
 using HomeEduBackendFinal.Helpers;
 using HomeEduBackendFinal.Models;
 using HomeEduBackendFinal.ViewModels.Event;
@@ -21,11 +22,11 @@ namespace HomeEduBackendFinal.Areas.Admin.Controllers
     {
 
         private readonly AppDbContext _db;
-        private readonly IHostingEnvironment _env;
-        public EventController(AppDbContext db, IHostingEnvironment env)
+        private readonly IWebHostEnvironment _env;
+        public EventController(AppDbContext db, IWebHostEnvironment env)
         {
             _db = db;
-            _env = env;
+            
         }
 
         public IActionResult Index()
@@ -51,17 +52,17 @@ namespace HomeEduBackendFinal.Areas.Admin.Controllers
 
             if (!ModelState.IsValid) return BadRequest(ModelState);
 
-            //if (!upComingEventCreateVM.Photo.IsImage())
-            //{
-            //    ModelState.AddModelError("Photo", "Zehmet olmasa shekil formati sechin");
-            //    return BadRequest(ModelState);
-            //}
+            if (!upComingEventCreateVM.Photo.IsImage())
+            {
+                ModelState.AddModelError("Photo", "Zehmet olmasa shekil formati sechin");
+                return BadRequest(ModelState);
+            }
 
-            //if (upComingEventCreateVM.Photo.MaxLength(2000))
-            //{
-            //    ModelState.AddModelError("Photo", "Shekilin olchusu max 200kb ola biler");
-            //    return BadRequest(ModelState);
-            //}
+            if (upComingEventCreateVM.Photo.MaxLength(2000))
+            {
+                ModelState.AddModelError("Photo", "Shekilin olchusu max 200kb ola biler");
+                return BadRequest(ModelState);
+            }
             if (upComingEventCreateVM.SpeakerEventsId == null)
             {
                 ModelState.AddModelError("", "Speaker Secmelisiniz!");
@@ -71,7 +72,7 @@ namespace HomeEduBackendFinal.Areas.Admin.Controllers
             UpCommingEvent upComingEvent = new UpCommingEvent
             {
                 Title = upComingEventCreateVM.Title,
-                //Image = await upComingEventCreateVM.Photo.SaveImg(_env.WebRootPath, path),
+                Image = await upComingEventCreateVM.Photo.SaveImg(_env.WebRootPath, path),
                 Month = upComingEventCreateVM.Month,
                 Day = upComingEventCreateVM.Day,
                 Location = upComingEventCreateVM.Location,
@@ -155,7 +156,7 @@ namespace HomeEduBackendFinal.Areas.Admin.Controllers
             if (upComingEventEdit.Photo != null)
             {
                 Helper.DeleteImage(_env.WebRootPath, "img/event", upComing.Image);
-                //upComing.Image = await upComingEventEdit.Photo.SaveImg(_env.WebRootPath, "img/event");
+                upComing.Image = await upComingEventEdit.Photo.SaveImg(_env.WebRootPath, "img/event");
 
             }
             if (upComingEventEdit.SpeakersId == null)

@@ -1,4 +1,5 @@
 ﻿using HomeEduBackendFinal.DAL;
+using HomeEduBackendFinal.Extentions;
 using HomeEduBackendFinal.Helpers;
 using HomeEduBackendFinal.Models;
 using HomeEduBackendFinal.ViewModels.Course;
@@ -16,13 +17,13 @@ using System.Threading.Tasks;
 namespace HomeEduBackendFinal.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    [Authorize(Roles = "Admin,CourseManager")]  
+    [Authorize(Roles = "Admin,Moderator")]  
     public class CourseController : Controller
     {
         private readonly AppDbContext _db;
-        private readonly IHostingEnvironment _env;
+        private readonly IWebHostEnvironment _env;
         private readonly UserManager<AppUser> _usermanager;
-        public CourseController(AppDbContext db, IHostingEnvironment env, UserManager<AppUser> usermanager)
+        public CourseController(AppDbContext db, IWebHostEnvironment env, UserManager<AppUser> usermanager)
         {
             _db = db;
             _env = env;
@@ -35,7 +36,7 @@ namespace HomeEduBackendFinal.Areas.Admin.Controllers
             {
                 return View(_db.Courses.Include(x => x.CourseCategories).ThenInclude(c => c.Category));
             }
-            if (User.IsInRole("CourseManager"))
+            if (User.IsInRole("Moderator"))
             {
                 var user = await _db.Users.Include(x => x.CourseUsers).ThenInclude(x => x.Course).ThenInclude(x => x.CourseCategories)
                     .ThenInclude(c => c.Category).SingleOrDefaultAsync(x => x.UserName == User.Identity.Name);
@@ -57,7 +58,7 @@ namespace HomeEduBackendFinal.Areas.Admin.Controllers
             return NotFound();
 
         }
-        [Authorize(Roles = "Admin")]
+        
         public async Task<IActionResult> Create()
         {
 
@@ -66,7 +67,7 @@ namespace HomeEduBackendFinal.Areas.Admin.Controllers
             ViewBag.Categories = _db.Categories.Where(c => c.IsDeleted == false).ToList();
             return View();
         }
-        [Authorize(Roles = "Admin")]
+     
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(CourseCreateVM courseCreateVM, List<int> List, List<string> Userlist)
@@ -83,34 +84,34 @@ namespace HomeEduBackendFinal.Areas.Admin.Controllers
                 return View();
             }
 
-            //if (!courseCreateVM.Photo.IsImage())
-            //{
-            //    ModelState.AddModelError("Photo", "Zehmet olmasa shekil formati sechin");
-            //    return View();
-            //}
+            if (!courseCreateVM.Photo.IsImage())
+            {
+                ModelState.AddModelError("Photo", "Zehmet olmasa shekil formati sechin");
+                return View();
+            }
 
-            //if (courseCreateVM.Photo.MaxLength(2000))
-            //{
-            //    ModelState.AddModelError("Photo", "Shekilin olchusu max 200kb ola biler");
-            //    return View();
-            //}
+            if (courseCreateVM.Photo.MaxLength(2000))
+            {
+                ModelState.AddModelError("Photo", "Shekilin olchusu max 200kb ola biler");
+                return View();
+            }
 
 
             string path = Path.Combine("img", "course");
-            //string fileName = await courseCreateVM.Photo.SaveImg(_env.WebRootPath, path);
+            string fileName = await courseCreateVM.Photo.SaveImg(_env.WebRootPath, path);
 
             if (List.Count() == 0)
             {
-                TempData["Error"] = "Pls choose categoryasdfggd";
+                TempData["Error"] = "choose category";
                 return View();
             }
 
             Course newcourse = new Course
             {
                 Title = courseCreateVM.Title,
-                //Image = fileName,
+                Image = fileName,
                 Description = courseCreateVM.Description,
-                //StartTime = courseCreateVM.StartTime,
+                Starts = courseCreateVM.StartTime,
                 Duration = courseCreateVM.Duration,
                 ClassDuration = courseCreateVM.ClassDuration,
                 SkilLevel = courseCreateVM.SkilLevel,
@@ -189,13 +190,13 @@ namespace HomeEduBackendFinal.Areas.Admin.Controllers
             if (courseEditVM.Photo != null)
             {
                 Helper.DeleteImage(_env.WebRootPath, "img/course", dbCourse.Image);
-                //dbCourse.Image = await courseEditVM.Photo.SaveImg(_env.WebRootPath, "img/course");
+                dbCourse.Image = await courseEditVM.Photo.SaveImg(_env.WebRootPath, "img/course");
 
             }
 
             dbCourse.Language = courseEditVM.Language;
             dbCourse.SkilLevel = courseEditVM.SkilLevel;
-            //dbCourse.StartTime = courseEditVM.StartTime;
+            dbCourse.Starts = courseEditVM.StartTime;
             dbCourse.StudentsCount = courseEditVM.StudentsCount;
             dbCourse.Title = courseEditVM.Title;
             dbCourse.Assesments = courseEditVM.Assesments;
@@ -235,7 +236,7 @@ namespace HomeEduBackendFinal.Areas.Admin.Controllers
         }
 
 
-        [Authorize(Roles = "Admin")]
+      
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null) return NotFound();
@@ -244,7 +245,7 @@ namespace HomeEduBackendFinal.Areas.Admin.Controllers
             return View(course);
         }
 
-        [Authorize(Roles = "Admin")]
+      
         [HttpPost]
         [ValidateAntiForgeryToken]
         [ActionName("Delete")]
@@ -255,7 +256,7 @@ namespace HomeEduBackendFinal.Areas.Admin.Controllers
             course.IsDeleted = true;
             await _db.SaveChangesAsync();
             await Task.Delay(1000);
-
+             
             return RedirectToAction(nameof(Index));
         }
 

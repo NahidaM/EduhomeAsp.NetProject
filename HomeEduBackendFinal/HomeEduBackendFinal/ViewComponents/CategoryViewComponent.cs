@@ -18,7 +18,7 @@ namespace HomeEduBackendFinal.ViewComponents
         }
 
         public async Task<IViewComponentResult> InvokeAsync(int take)
-        {
+        { 
             List<Category> model = _db.Categories.Where(c => c.IsDeleted == false).ToList(); 
             return View(await Task.FromResult(model));
         }

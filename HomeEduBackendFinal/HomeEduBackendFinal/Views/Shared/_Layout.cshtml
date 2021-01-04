@@ -31,14 +31,14 @@
         <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
     <!-- Header Area Start -->
-    @await Component.InvokeAsync("Header")
-    <!-- Header Area End --> 
+    @await Component.InvokeAsync("Header") 
+    <!-- Header Area End -->
     @RenderBody()
     <!-- Footer Start -->
     @await Component.InvokeAsync("Footer")
     <!-- Footer End -->
 
-    <script src="~/js/vendor/jquery-1.12.0.min.js"></script> 
+    <script src="~/js/vendor/jquery-1.12.0.min.js"></script>
     <script src="~/js/bootstrap.min.js"></script>
     <script src="~/js/jquery.meanmenu.js"></script>
     <script src="~/js/jquery.magnific-popup.js"></script>
@@ -49,7 +49,7 @@
     <script src="~/js/plugins.js"></script>
     <script src="~/js/main.js"></script>
 </body>
-
+@RenderSection("Scripts", false); 
 <!-- Mirrored from demo.devitems.com/eduhome/index-2.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 21 Jun 2020 19:41:25 GMT -->
 </html>
 

@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 namespace HomeEduBackendFinal.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    [Authorize(Roles = "Admin")]
+    //[Authorize(Roles = "Admin")]
     public class RolesController : Controller
     {
         private readonly SignInManager<AppUser> _signInManager;
@@ -82,7 +82,7 @@ namespace HomeEduBackendFinal.Areas.Admin.Controllers
             return View(await _userManager.Users.ToListAsync());
         }
 
-
+         
         //public async Task<IActionResult> Edit(string userid)
         //{
         //    var user = await _userManager.FindByIdAsync(userid);

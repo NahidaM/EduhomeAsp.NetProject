@@ -1,4 +1,5 @@
 ﻿using HomeEduBackendFinal.DAL;
+using HomeEduBackendFinal.Extentions;
 using HomeEduBackendFinal.Helpers;
 using HomeEduBackendFinal.Models;
 using Microsoft.AspNetCore.Authorization;
@@ -18,8 +19,8 @@ namespace HomeEduBackendFinal.Areas.Admin.Controllers
     {
 
         private readonly AppDbContext _db;
-        private readonly IHostingEnvironment _env;
-        public TestimonialController(AppDbContext db, IHostingEnvironment env)
+        private readonly IWebHostEnvironment _env;
+        public TestimonialController(AppDbContext db, IWebHostEnvironment env)
         {
             _db = db;
             _env = env;
@@ -51,24 +52,24 @@ namespace HomeEduBackendFinal.Areas.Admin.Controllers
                     return View();
                 }
 
-                //if (!testimonial.Photo.IsImage())
-                //{
-                //    ModelState.AddModelError("Photo", "Zehmet olmasa shekil formati sechin");
-                //    return View();
-                //}
+                if (!testimonial.Photo.IsImage())
+                {
+                    ModelState.AddModelError("Photo", "Zehmet olmasa shekil formati sechin");
+                    return View();
+                }
 
-                //if (testimonial.Photo.MaxLength(2000))
-                //{
-                //    ModelState.AddModelError("Photo", "Shekilin olchusu max 2mg ola biler");
-                //    return View();
-                //}
+                if (testimonial.Photo.MaxLength(2000))
+                {
+                    ModelState.AddModelError("Photo", "Shekilin olchusu max 2mg ola biler");
+                    return View();
+                }
 
 
                 string path = Path.Combine("img", "testimonial");
                 Helper.DeleteImage(_env.WebRootPath, path, dbtestimonial.Image);
 
-                //string fileName = await testimonial.Photo.SaveImg(_env.WebRootPath, path);
-                //dbtestimonial.Image = fileName;
+                string fileName = await testimonial.Photo.SaveImg(_env.WebRootPath, path);
+                dbtestimonial.Image = fileName;
 
             }
             dbtestimonial.Name = testimonial.Name;
@@ -98,25 +99,25 @@ namespace HomeEduBackendFinal.Areas.Admin.Controllers
                 return View();
             }
 
-            //if (!testimonial.Photo.IsImage())
-            //{
-            //    ModelState.AddModelError("Photo", "Zehmet olmasa shekil formati sechin");
-            //    return View();
-            //}
+            if (!testimonial.Photo.IsImage())
+            {
+                ModelState.AddModelError("Photo", "Zehmet olmasa shekil formati sechin");
+                return View();
+            }
 
-            //if (testimonial.Photo.MaxLength(2000))
-            //{
-            //    ModelState.AddModelError("Photo", "Shekilin olchusu max 200kb ola biler");
-            //    return View();
-            //}
+            if (testimonial.Photo.MaxLength(2000))
+            {
+                ModelState.AddModelError("Photo", "Shekilin olchusu max 200kb ola biler");
+                return View();
+            }
 
             string path = Path.Combine("img", "testimonial");
 
-            //string fileName = await testimonial.Photo.SaveImg(_env.WebRootPath, path);
+            string fileName = await testimonial.Photo.SaveImg(_env.WebRootPath, path);
             Testimonial newTestimonal = new Testimonial();
             newTestimonal.Name = testimonial.Name;
             newTestimonal.Title = testimonial.Title;
-            //newTestimonal.Image = fileName;
+            newTestimonal.Image = fileName;
             newTestimonal.Position = testimonial.Position;
 
             await _db.Testimonials.AddAsync(newTestimonal);

@@ -1,4 +1,5 @@
 ﻿using HomeEduBackendFinal.DAL;
+using HomeEduBackendFinal.Extentions;
 using HomeEduBackendFinal.Helpers;
 using HomeEduBackendFinal.Models;
 using HomeEduBackendFinal.ViewModels;
@@ -18,9 +19,9 @@ namespace HomeEduBackendFinal.Areas.Admin.Controllers
     public class SpeakerController : Controller
     {
         private readonly AppDbContext _db;
-        private readonly IHostingEnvironment _env;
+        private readonly IWebHostEnvironment _env;
 
-        public SpeakerController(AppDbContext db, IHostingEnvironment env)
+        public SpeakerController(AppDbContext db, IWebHostEnvironment env)
         {
             _db = db;
             _env = env;
@@ -46,23 +47,23 @@ namespace HomeEduBackendFinal.Areas.Admin.Controllers
 
 
             if (!ModelState.IsValid) return View();
-            //if (!speakerCreateVM.Photo.IsImage())
-            //{
-            //    ModelState.AddModelError("Photo", "Zehmet olmasa shekil formati sechin");
-            //    return View();
-            //}
+            if (!speakerCreateVM.Photo.IsImage())
+            {
+                ModelState.AddModelError("Photo", "Zehmet olmasa shekil formati sechin");
+                return View();
+            }
 
-            //if (speakerCreateVM.Photo.MaxLength(2000))
-            //{
-            //    ModelState.AddModelError("Photo", "Shekilin olchusu max 200kb ola biler");
-            //    return View();
-            //}
+            if (speakerCreateVM.Photo.MaxLength(2000))
+            {
+                ModelState.AddModelError("Photo", "Shekilin olchusu max 200kb ola biler");
+                return View();
+            }
 
             Speaker newSpeaker = new Speaker
             {
                 Name = speakerCreateVM.Name,
                 Position = speakerCreateVM.Position,
-                //Image = await speakerCreateVM.Photo.SaveImg(_env.WebRootPath, "img/teacher"),
+                Image = await speakerCreateVM.Photo.SaveImg(_env.WebRootPath, "img/teacher"),
             };
             await _db.AddAsync(newSpeaker);
             await _db.SaveChangesAsync();
@@ -98,7 +99,7 @@ namespace HomeEduBackendFinal.Areas.Admin.Controllers
             if (speakerEditVM.Photo != null)
             {
                 Helper.DeleteImage(_env.WebRootPath, "img/teacher", dbSpeaker.Image); 
-                //dbSpeaker.Image = await speakerEditVM.Photo.SaveImg(_env.WebRootPath, "img/teacher");
+                dbSpeaker.Image = await speakerEditVM.Photo.SaveImg(_env.WebRootPath, "img/teacher");
 
             }
 

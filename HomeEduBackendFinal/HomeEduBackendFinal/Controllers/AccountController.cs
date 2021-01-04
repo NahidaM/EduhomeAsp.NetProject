@@ -6,142 +6,126 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using static HomeEduBackendFinal.Extentions.Extention;
 
 namespace HomeEduBackendFinal.Controllers
 {
+
     public class AccountController : Controller
     {
+
         private readonly UserManager<AppUser> _userManager;
         private readonly SignInManager<AppUser> _signInManager;
         private readonly RoleManager<IdentityRole> _roleManager;
         public AccountController(UserManager<AppUser> userManager,
-                             SignInManager<AppUser> signInManager,
-                             RoleManager<IdentityRole> roleManager)
+                                SignInManager<AppUser> signInManager,
+                                RoleManager<IdentityRole> roleManager)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _roleManager = roleManager;
         }
-
         public IActionResult Login()
         {
-            return View();
+            if (User.Identity.IsAuthenticated)
+            {
+                return NotFound();
+            }
+            else
+            {
+                return View();
+            }
         }
-
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login(LoginVm login)
         {
             if (!ModelState.IsValid) return View();
-
-            AppUser loginUser = await _userManager.FindByEmailAsync(login.Email);
-            if (loginUser == null)
+            AppUser user = await _userManager.FindByNameAsync(login.Email);
+            if (user == null)
             {
-                ModelState.AddModelError("", "Email or password wrong!");
-                return View(login);
-            }
-            if (!loginUser.IsActivated)
-            {
-                ModelState.AddModelError("", "Emaliniz block olunub");
-                return View(login);
+                ModelState.AddModelError("", "Email or password wrong!!!");
+                return View();
             }
 
+            if (user.IsActivated)
+            {
+                ModelState.AddModelError("", "This account blocked!!!");
+                return View();
+            }
 
-            var signInResult = await _signInManager.PasswordSignInAsync(loginUser, login.Password, login.RememberMe, true);
+            Microsoft.AspNetCore.Identity.SignInResult signInResult =
+                await _signInManager.PasswordSignInAsync(user, login.Password, true, true);
             if (signInResult.IsLockedOut)
             {
-                ModelState.AddModelError("", "The account is locked out!");
+                ModelState.AddModelError("", "Please,try few minutes later");
                 return View(login);
             }
 
             if (!signInResult.Succeeded)
             {
-                ModelState.AddModelError("", "Email or password wrong!");
-                return View(login);
-            }
-
-
-            var roles = await _userManager.GetRolesAsync(loginUser);
-
-            foreach (var item in roles)
-            {
-                if (item == "Admin")
-                {
-                    return RedirectToAction("Index", "Dashboard", new { area = "Admin" });
-                }
-
-                if (item == "CourseManager")
-                {
-                    return RedirectToAction("Index", "Course", new { area = "Admin" });
-                }
+                ModelState.AddModelError("", "Email or password wrong!!!");
+                return View();
             }
 
 
             return RedirectToAction("Index", "Home");
         }
-
-
-        public IActionResult LogOut()
-        {
-            _signInManager.SignOutAsync();
-            return RedirectToAction("Index", "Home");
-        }
-
-
         public IActionResult Register()
         {
-            return View();
+            if (User.Identity.IsAuthenticated)
+            {
+                return NotFound();
+            }
+            else
+            {
+                return View();
+            }
         }
-
-
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Register(RegisterVm register)
         {
-            if (!ModelState.IsValid) return View();
+            if (!ModelState.IsValid) return NotFound();
             AppUser newUser = new AppUser
             {
-                Fullname = register.Fullname,
+                UserName = register.UserName,
+                Fullname = register.FullName,
+               
                 Email = register.Email,
-                UserName = register.Username
-            };
 
+            };
             IdentityResult identityResult = await _userManager.CreateAsync(newUser, register.Password);
             if (!identityResult.Succeeded)
             {
-                foreach (var error in identityResult.Errors)
+                foreach (IdentityError error in identityResult.Errors)
                 {
                     ModelState.AddModelError("", error.Description);
                 }
-                return View(register);
+                return View();
             }
-            newUser.IsActivated = true;
-            await _userManager.AddToRoleAsync(newUser, "Member");
-
+            await _userManager.AddToRoleAsync(newUser, Roles.Admin.ToString());
             await _signInManager.SignInAsync(newUser, true);
             return RedirectToAction("Index", "Home");
 
         }
-
-
-        public async Task CreateRole()
+        public async Task<IActionResult> LogOut()
         {
-            if (!await _roleManager.RoleExistsAsync("Admin"))
-            {
-                await _roleManager.CreateAsync(new IdentityRole { Name = "Admin" });
-
-            }
-            if (!await _roleManager.RoleExistsAsync("Member"))
-            {
-                await _roleManager.CreateAsync(new IdentityRole { Name = "Member" });
-
-            }
-            if (!await _roleManager.RoleExistsAsync("Blogger"))
-            {
-                await _roleManager.CreateAsync(new IdentityRole { Name = "Blogger" });
-
-            }
+            await _signInManager.SignOutAsync();
+            return RedirectToAction("Index", "Home");
         }
+        #region CreateRoleManager
 
+        public async Task CreateUserRole()
+        {
+            if (!(await _roleManager.RoleExistsAsync(Roles.Admin.ToString())))
+                await _roleManager.CreateAsync(new IdentityRole { Name = Roles.Admin.ToString() });
+            if (!(await _roleManager.RoleExistsAsync(Roles.Member.ToString())))
+                await _roleManager.CreateAsync(new IdentityRole { Name = Roles.Member.ToString() });
+            if (!(await _roleManager.RoleExistsAsync(Roles.Moderator.ToString())))
+                await _roleManager.CreateAsync(new IdentityRole { Name = Roles.Moderator.ToString() });
+        }
+        #endregion
     }
+
 }

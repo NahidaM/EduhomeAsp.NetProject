@@ -15,8 +15,8 @@ namespace HomeEduBackendFinal.Areas.Admin.Controllers
     public class WhyUsController : Controller
     {
         private readonly AppDbContext _db;
-        private readonly IHostingEnvironment _env;
-        public WhyUsController(AppDbContext db, IHostingEnvironment env)
+        private readonly IWebHostEnvironment _env;
+        public WhyUsController(AppDbContext db, IWebHostEnvironment env)
         {
             _db = db;
             _env = env;

@@ -1,4 +1,5 @@
 ﻿using HomeEduBackendFinal.DAL;
+using HomeEduBackendFinal.Extentions;
 using HomeEduBackendFinal.Helpers;
 using HomeEduBackendFinal.Models;
 using Microsoft.AspNetCore.Authorization;
@@ -17,8 +18,8 @@ namespace HomeEduBackendFinal.Areas.Admin.Controllers
     public class BiosController : Controller
     {
         private readonly AppDbContext _db;
-        private readonly IHostingEnvironment _env;
-        public BiosController(AppDbContext db, IHostingEnvironment env)
+        private readonly IWebHostEnvironment _env;
+        public BiosController(AppDbContext db, IWebHostEnvironment env)
         {
             _db = db;
             _env = env;
@@ -54,24 +55,24 @@ namespace HomeEduBackendFinal.Areas.Admin.Controllers
                     return View();
                 }
 
-                //if (!bio.Photo.IsImage())
-                //{
-                //    ModelState.AddModelError("Photo", "Zehmet olmasa shekil formati sechin");
-                //    return View();
-                //} 
+                if (!bio.Photo.IsImage())
+                {
+                    ModelState.AddModelError("Photo", "Zehmet olmasa shekil formati sechin");
+                    return View();
+                }
 
-                //if (bio.Photo.MaxLength(2000))
-                //{
-                //    ModelState.AddModelError("Photo", "Shekilin olchusu max 2mg ola biler");
-                //    return View();
-                //}
+                if (bio.Photo.MaxLength(2000))
+                {
+                    ModelState.AddModelError("Photo", "Shekilin olchusu max 2mg ola biler");
+                    return View();
+                }
 
 
                 string path = Path.Combine("img", "logo");
                 Helper.DeleteImage(_env.WebRootPath, path, dbBio.Logo);
 
-                //string fileName = await bio.Photo.SaveImg(_env.WebRootPath, path);
-                //dbBio.Logo = fileName; 
+                string fileName = await bio.Photo.SaveImg(_env.WebRootPath, path);
+                dbBio.Logo = fileName;
 
             }
             dbBio.Number = bio.Number;

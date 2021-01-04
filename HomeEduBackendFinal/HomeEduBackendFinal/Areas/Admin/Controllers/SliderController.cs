@@ -19,8 +19,8 @@ namespace HomeEduBackendFinal.Areas.Admin.Controllers
     public class SliderController : Controller
     {
         private readonly AppDbContext _db;
-        private readonly IHostingEnvironment _env;
-        public SliderController(AppDbContext db, IHostingEnvironment env) 
+        private readonly IWebHostEnvironment _env;
+        public SliderController(AppDbContext db, IWebHostEnvironment env) 
         {
             _db = db;
             _env = env;
@@ -58,29 +58,29 @@ namespace HomeEduBackendFinal.Areas.Admin.Controllers
                 return View();
             }
 
-            //if (!slider.Photo.IsImage())
-            //{
-            //    ModelState.AddModelError("Photo", "Zehmet olmasa shekil formati sechin");
-            //    return View();
-            //}
+            if (!slider.Photo.IsImage())
+            {
+                ModelState.AddModelError("Photo", "Zehmet olmasa shekil formati sechin");
+                return View();
+            }
 
-            //if (slider.Photo.MaxLength(2000))
-            //{
-            //    ModelState.AddModelError("Photo", "Shekilin olchusu max 200kb ola biler");
-            //    return View();
-            //}
+            if (slider.Photo.MaxLength(2000))
+            {
+                ModelState.AddModelError("Photo", "Shekilin olchusu max 200kb ola biler");
+                return View();
+            }
 
             if (_db.Sliders.Count() >= 5)
             {
                 return RedirectToAction(nameof(Index));
             }
             string path = Path.Combine("img", "slider"); 
-            //string fileName = await slider.Photo.SaveImg(_env.WebRootPath, path);
+            string fileName = await slider.Photo.SaveImg(_env.WebRootPath, path);
 
             Slider newslider = new Slider();
             newslider.Description = slider.Description;
             newslider.Title = slider.Title;
-            //newslider.Image = fileName; 
+            newslider.Image = fileName; 
 
             await _db.Sliders.AddAsync(newslider);
             await _db.SaveChangesAsync();
@@ -135,25 +135,25 @@ namespace HomeEduBackendFinal.Areas.Admin.Controllers
                     return View();
                 }
 
-                //if (!createSliderVM.Photo.IsImage())
-                //{
-                //    ModelState.AddModelError("Photo", "Zehmet olmasa shekil formati sechin");
-                //    return View();
-                //}
+                if (!createSliderVM.Photo.IsImage())
+                {
+                    ModelState.AddModelError("Photo", "Zehmet olmasa shekil formati sechin");
+                    return View();
+                }
 
-                //if (createSliderVM.Photo.MaxLength(200))
-                //{
-                //    ModelState.AddModelError("Photo", "Shekilin olchusu max 200kb ola biler");
-                //    return View();
-                //} 
+                if (createSliderVM.Photo.MaxLength(200))
+                {
+                    ModelState.AddModelError("Photo", "Shekilin olchusu max 200kb ola biler");
+                    return View();
+                }
 
 
                 string path = Path.Combine("img", "slider");
                 Helper.DeleteImage(_env.WebRootPath, path, dbSlider.Image);
 
 
-                //string fileName = await createSliderVM.Photo.SaveImg(_env.WebRootPath, path);
-                //dbSlider.Image = fileName; 
+                string fileName = await createSliderVM.Photo.SaveImg(_env.WebRootPath, path);
+                dbSlider.Image = fileName;
 
             }
             dbSlider.Description = createSliderVM.Description;

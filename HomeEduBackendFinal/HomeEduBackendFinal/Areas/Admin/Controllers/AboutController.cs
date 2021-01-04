@@ -1,4 +1,5 @@
 ﻿using HomeEduBackendFinal.DAL;
+using HomeEduBackendFinal.Extentions;
 using HomeEduBackendFinal.Helpers;
 using HomeEduBackendFinal.Models;
 using Microsoft.AspNetCore.Authorization;
@@ -17,8 +18,8 @@ namespace HomeEduBackendFinal.Areas.Admin.Controllers
     public class AboutController : Controller
     {
         private readonly AppDbContext _db;
-        private readonly IHostingEnvironment _env;
-        public AboutController(AppDbContext db, IHostingEnvironment env)
+        private readonly IWebHostEnvironment _env;
+        public AboutController(AppDbContext db, IWebHostEnvironment env) 
         {
             _db = db;
             _env = env;
@@ -53,22 +54,22 @@ namespace HomeEduBackendFinal.Areas.Admin.Controllers
                     return View();
                 }
 
-                //if (!about.Photo.IsImage())
-                //{
-                //    ModelState.AddModelError("Photo", "Zehmet olmasa shekil formati sechin");
-                //    return View();
-                //}
+                if (!about.Photo.IsImage())
+                {
+                    ModelState.AddModelError("Photo", "Zehmet olmasa shekil formati sechin");
+                    return View();
+                }
 
-                //if (about.Photo.MaxLength(200))
-                //{
-                //    ModelState.AddModelError("Photo", "Shekilin olchusu max 200kb ola biler");
-                //    return View();
-                //}
+                if (about.Photo.MaxLength(200))
+                {
+                    ModelState.AddModelError("Photo", "Shekilin olchusu max 200kb ola biler");
+                    return View();
+                }
 
                 string path = Path.Combine("img", "about");
                 Helper.DeleteImage(_env.WebRootPath, path, dbabout.Image);
-                //string fileName = await about.Photo.SaveImg(_env.WebRootPath, path);
-                //dbabout.Image = fileName; 
+                string fileName = await about.Photo.SaveImg(_env.WebRootPath, path);
+                dbabout.Image = fileName;
 
             }
             dbabout.Description = about.Description;

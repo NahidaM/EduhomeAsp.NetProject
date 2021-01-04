@@ -12,7 +12,7 @@ namespace HomeEduBackendFinal.Models
         [Required]
         public string Name { get; set; }
 
-        public ICollection<Course> Courses { get; set; }
+        
         public virtual ICollection<UpCommingEvent> UpComingEvents { get; set; } 
         public virtual ICollection<Teacher> Teachers { get; set; }
         public bool IsDeleted { get; set; }

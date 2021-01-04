@@ -1,4 +1,5 @@
 ﻿using HomeEduBackendFinal.DAL;
+using HomeEduBackendFinal.Extentions;
 using HomeEduBackendFinal.Helpers;
 using HomeEduBackendFinal.Models;
 using HomeEduBackendFinal.ViewModels.Teacher;
@@ -19,9 +20,9 @@ namespace HomeEduBackendFinal.Areas.Admin.Controllers
     public class TeacherController : Controller
     {
         private readonly AppDbContext _db;
-        private readonly IHostingEnvironment _env;
+        private readonly IWebHostEnvironment _env;
 
-        public TeacherController(AppDbContext db, IHostingEnvironment env)
+        public TeacherController(AppDbContext db, IWebHostEnvironment env)
         {
             _db = db;
             _env = env;
@@ -42,17 +43,17 @@ namespace HomeEduBackendFinal.Areas.Admin.Controllers
         {
             ViewBag.Category = new SelectList(_db.Categories.Where(c => c.IsDeleted == false).ToList(), "Id", "Name");
             if (!ModelState.IsValid) return View();
-            //if (!teacherCreateVm.Photo.IsImage())
-            //{
-            //    ModelState.AddModelError("Photo", "Zehmet olmasa shekil formati sechin");
-            //    return View();
-            //}
+            if (!teacherCreateVm.Photo.IsImage())
+            {
+                ModelState.AddModelError("Photo", "Zehmet olmasa shekil formati sechin");
+                return View();
+            }
 
-            //if (teacherCreateVm.Photo.MaxLength(2000))
-            //{
-            //    ModelState.AddModelError("Photo", "Shekilin olchusu max 200kb ola biler");
-            //    return View();
-            //}
+            if (teacherCreateVm.Photo.MaxLength(2000))
+            {
+                ModelState.AddModelError("Photo", "Shekilin olchusu max 200kb ola biler");
+                return View();
+            }
             Teacher newTeacher = new Teacher
             {
                 FullName = teacherCreateVm.FullName,
@@ -60,7 +61,7 @@ namespace HomeEduBackendFinal.Areas.Admin.Controllers
                 Facebook = teacherCreateVm.Facebook,
                 Pinterest = teacherCreateVm.Pinterest,
                 VContact = teacherCreateVm.VContact,
-                //Image = await teacherCreateVm.Photo.SaveImg(_env.WebRootPath, "img/teacher"),
+                Image = await teacherCreateVm.Photo.SaveImg(_env.WebRootPath, "img/teacher"),
                 Twitter = teacherCreateVm.Twitter,
                 CategoryId = CategoryId,
                 PhoneNumber = teacherCreateVm.PhoneNumber,
@@ -120,7 +121,7 @@ namespace HomeEduBackendFinal.Areas.Admin.Controllers
             if (teacherEditVM.Photo != null)
             {
                 Helper.DeleteImage(_env.WebRootPath, "img/teacher", dbTeacher.Image);
-                //dbTeacher.Image = await teacherEditVM.Photo.SaveImg(_env.WebRootPath, "img/teacher");
+                dbTeacher.Image = await teacherEditVM.Photo.SaveImg(_env.WebRootPath, "img/teacher");
 
             }
 
