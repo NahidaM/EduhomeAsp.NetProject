@@ -61,11 +61,10 @@ namespace HomeEduBackendFinal.Areas.Admin.Controllers
         
         public async Task<IActionResult> Create()
         {
-
-            var users = await _usermanager.GetUsersInRoleAsync("CourseManager");
+            var users = await _usermanager.GetUsersInRoleAsync("Moderator");
             ViewBag.Roles = users;
             ViewBag.Categories = _db.Categories.Where(c => c.IsDeleted == false).ToList();
-            return View();
+            return View(); 
         }
      
         [HttpPost]
@@ -73,7 +72,7 @@ namespace HomeEduBackendFinal.Areas.Admin.Controllers
         public async Task<IActionResult> Create(CourseCreateVM courseCreateVM, List<int> List, List<string> Userlist)
         {
 
-            var users = await _usermanager.GetUsersInRoleAsync("CourseManager");
+            var users = await _usermanager.GetUsersInRoleAsync("Moderator");
             ViewBag.Roles = users;
 
             ViewBag.Categories = _db.Categories.ToList();
@@ -90,7 +89,7 @@ namespace HomeEduBackendFinal.Areas.Admin.Controllers
                 return View();
             }
 
-            if (courseCreateVM.Photo.MaxLength(2000))
+            if (courseCreateVM.Photo.MaxLength(200))
             {
                 ModelState.AddModelError("Photo", "Shekilin olchusu max 200kb ola biler");
                 return View();
@@ -165,7 +164,7 @@ namespace HomeEduBackendFinal.Areas.Admin.Controllers
 
         public async Task<IActionResult> Update(int? id)
         {
-            var currentusers = await _usermanager.GetUsersInRoleAsync("CourseManager");
+            var currentusers = await _usermanager.GetUsersInRoleAsync("Moderator");
 
             ViewBag.allusers = currentusers;
 

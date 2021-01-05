@@ -61,7 +61,7 @@ namespace HomeEduBackendFinal.Areas.Admin.Controllers
                     return View();
                 }
 
-                if (bio.Photo.MaxLength(2000))
+                if (bio.Photo.MaxLength(200))
                 {
                     ModelState.AddModelError("Photo", "Shekilin olchusu max 2mg ola biler");
                     return View();

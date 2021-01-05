@@ -12,6 +12,8 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net;
+using System.Net.Mail;
 using System.Threading.Tasks;
 
 namespace HomeEduBackendFinal.Areas.Admin.Controllers
@@ -26,7 +28,7 @@ namespace HomeEduBackendFinal.Areas.Admin.Controllers
         public EventController(AppDbContext db, IWebHostEnvironment env)
         {
             _db = db;
-            
+            _env = env;
         }
 
         public IActionResult Index()
@@ -86,6 +88,13 @@ namespace HomeEduBackendFinal.Areas.Admin.Controllers
 
             await _db.UpComingEvents.AddAsync(upComingEvent);
             await _db.SaveChangesAsync();
+             
+            List<SubscribedEmail> emails = _db.SubscribedEmails.Where(e => e.HasDeleted == false).ToList();
+            foreach (SubscribedEmail email in emails)
+            {
+                SendEmail(email.Email, "Yeni bir event yaradildi.", "<h1>Yeni bir event yaradildi</h1>");
+            }
+
             foreach (var speakerId in upComingEventCreateVM.SpeakerEventsId)
             {
                 var speaker = _db.Speakers.Include(p => p.SpeakerEvents).ThenInclude(p => p.UpComingEvent).
@@ -106,15 +115,13 @@ namespace HomeEduBackendFinal.Areas.Admin.Controllers
                     SpeakerId = speakerId,
                     UpComingEventId = upComingEvent.Id
 
-                };
+                }; 
                 _db.SpeakerEvents.Add(speakerEvent);
 
                 await _db.SaveChangesAsync();
             }
           
-
             return Ok($"{upComingEvent.Id} li element yaradildi");
-
 
         }
 
@@ -216,6 +223,33 @@ namespace HomeEduBackendFinal.Areas.Admin.Controllers
             }
             _db.SaveChanges();
             return RedirectToAction(nameof(Index));
-        } 
+        }
+
+        public void SendEmail(string email, string subject, string htmlMessage)
+        {
+            System.Net.Mail.SmtpClient client = new System.Net.Mail.SmtpClient()
+            {
+                Host = "smtp.gmail.com",
+                Port = 587,
+                EnableSsl = true,
+                DeliveryMethod = SmtpDeliveryMethod.Network,
+                UseDefaultCredentials = false,
+                Credentials = new NetworkCredential()
+                {
+                    UserName = "nahidanm@gmail.com",
+                    Password = "nahida1999"
+                }
+            };
+            MailAddress fromEmail = new MailAddress("nahidanm@gmail.com", "Nahida");
+            MailAddress toEmail = new MailAddress(email, "Nahida"); 
+            MailMessage message = new MailMessage()
+            {
+                From = fromEmail,
+                Subject = subject,
+                Body = htmlMessage
+            };
+            message.To.Add(toEmail);
+            client.Send(message);
+        }
     }
 }
