@@ -25,22 +25,25 @@ namespace HomeEduBackendFinal.Areas.Admin.Controllers
             _env = env;
         }
 
-
+        #region Index
+        //HomeEduBackendFinal/Admin/BiosController/Index 
         public IActionResult Index()
         {
             Bio bio = _db.Bios.FirstOrDefault();
             return View(bio);
         }
+        #endregion
 
-
+        #region Update
+        //GET: HomeEduBackendFinal/Admin/BiosController/Update
         public IActionResult Update(int? id)
         {
             if (id == null) return NotFound();
             Bio bio = _db.Bios.FirstOrDefault(p => p.Id == id);
             if (bio == null) return NotFound();
             return View(bio);
-
         }
+        //POST: HomeEduBackendFinal/Admin/BiosController/Update
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Update(int? id, Bio bio)
@@ -66,24 +69,20 @@ namespace HomeEduBackendFinal.Areas.Admin.Controllers
                     ModelState.AddModelError("Photo", "Shekilin olchusu max 2mg ola biler");
                     return View();
                 }
-
-
                 string path = Path.Combine("img", "logo");
                 Helper.DeleteImage(_env.WebRootPath, path, dbBio.Logo);
-
                 string fileName = await bio.Photo.SaveImg(_env.WebRootPath, path);
                 dbBio.Logo = fileName;
-
             }
             dbBio.Number = bio.Number;
             dbBio.Facebook = bio.Facebook;
             dbBio.Vcontact = bio.Vcontact;
             dbBio.Twitter = bio.Twitter;
             dbBio.Pinterest = bio.Pinterest;
-
-
             await _db.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
-        } 
+        }
+        #endregion
+
     }
 }

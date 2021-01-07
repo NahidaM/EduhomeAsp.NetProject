@@ -27,7 +27,7 @@ namespace HomeEduBackendFinal.DAL
         public DbSet<Blog> Blogs { get; set; }
         public DbSet<HomeBio> HomeBios { get; set; }
         public DbSet<Bio> Bios { get; set; }
-        public DbSet<About> Abouts { get; set; }
+        public DbSet<About> Abouts { get; set; } 
         public DbSet<VideoTour> VideoTours { get; set; }
         public DbSet<Teacher> Teachers { get; set; }
         //public DbSet<CourseUser> CourseUsers { get; set; }
@@ -37,7 +37,12 @@ namespace HomeEduBackendFinal.DAL
         public DbSet<SpeakerEvent> SpeakerEvents { get; set; }
         public DbSet<Contact> Contacts { get; set; }
         public DbSet<SubscribedEmail> SubscribedEmails { get; set; } 
-        public DbSet<Subscribe> Subscribes { get; set; }  
+        public DbSet<Subscribe> Subscribes { get; set; }
 
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<UpCommingEvent>().ToTable("UpComingEvents");
+            modelBuilder.Entity<Speaker>().ToTable("Speakers");
+        }
     }
 }

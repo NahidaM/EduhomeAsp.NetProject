@@ -13,15 +13,16 @@ namespace HomeEduBackendFinal.Models
         public DateTime Month { get; set; }
         public DateTime Day { get; set; }
         public string Title { get; set; }
-        public string Location { get; set; }
+        public string Location { get; set; } 
         public DateTime StartTime { get; set; } 
-        public DateTime EndTime { get; set; }
+        public DateTime EndTime { get; set; } 
         public string Image { get; set; }
         public string Description { get; set; }
         [NotMapped]
         public IFormFile Photo { get; set; }
         public ICollection<SpeakerEvent> SpeakerEvents { get; set; }
         public int CategoryId { get; set; }
-        public virtual Category Category { get; set; } 
+        public virtual Category Category { get; set; }
+        public object UpComingEventEditVM { get; internal set; }
     }
 }

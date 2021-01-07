@@ -18,12 +18,15 @@ namespace HomeEduBackendFinal.Areas.Admin.Controllers
         {
             _db = db;
         }
+
+        #region Index
         public IActionResult Index()
         {
             return View(_db.Categories.Where(c => c.IsDeleted == false).ToList());
         }
+        #endregion
 
-
+        #region Create
         public IActionResult Create()
         {
             return View();
@@ -44,13 +47,14 @@ namespace HomeEduBackendFinal.Areas.Admin.Controllers
             {
                 Name = category.Name
             };
-
             await _db.AddAsync(newCategory);
             await _db.SaveChangesAsync();
-
             return RedirectToAction(nameof(Index));
         }
 
+        #endregion
+
+        #region Update
         public IActionResult Update(int? id)
         {
             if (id == null) return NotFound();
@@ -58,11 +62,11 @@ namespace HomeEduBackendFinal.Areas.Admin.Controllers
             if (dbCategory == null) return NotFound();
             return View(dbCategory);
         }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Update(int? id, Category category)
         {
-
             if (id == null) return NotFound();
             Category dbCategory = _db.Categories.FirstOrDefault(c => c.Id == id);
             if (dbCategory == null) return NotFound();
@@ -80,7 +84,9 @@ namespace HomeEduBackendFinal.Areas.Admin.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        #endregion
 
+        #region Delete
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null) return NotFound();
@@ -90,6 +96,8 @@ namespace HomeEduBackendFinal.Areas.Admin.Controllers
             await _db.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
+        #endregion
+
 
     }
 }

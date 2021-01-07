@@ -17,7 +17,6 @@ namespace HomeEduBackendFinal.Areas.Admin.Controllers
     [Authorize(Roles = "Admin")] 
     public class HomeBioController : Controller
     {
-
         private readonly AppDbContext _db;
         private readonly IWebHostEnvironment _env;
         public HomeBioController(AppDbContext db, IWebHostEnvironment env)
@@ -25,22 +24,21 @@ namespace HomeEduBackendFinal.Areas.Admin.Controllers
             _db = db;
             _env = env;
         }
-
-
+        #region Index 
         public IActionResult Index()
         {
             HomeBio homeBio = _db.HomeBios.FirstOrDefault();
             return View(homeBio);
         }
+        #endregion
 
-
+        #region Update
         public IActionResult Update(int? id)
         {
             if (id == null) return NotFound();
             HomeBio homeBio = _db.HomeBios.FirstOrDefault(p => p.Id == id);
             if (homeBio == null) return NotFound();
             return View(homeBio);
-
         }
 
         [HttpPost]
@@ -70,7 +68,6 @@ namespace HomeEduBackendFinal.Areas.Admin.Controllers
                 }
                 string path = Path.Combine("img", "logo");
                 Helper.DeleteImage(_env.WebRootPath, path, dbHomeBio.Logo);
-
                 string fileName = await homeBio.Photo.SaveImg(_env.WebRootPath, path);
                 dbHomeBio.Logo = fileName;
             }
@@ -79,10 +76,9 @@ namespace HomeEduBackendFinal.Areas.Admin.Controllers
             dbHomeBio.Vcontact = homeBio.Vcontact;
             dbHomeBio.Twitter = homeBio.Twitter;
             dbHomeBio.Pinterest = homeBio.Pinterest;
-
-
             await _db.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
-        } 
+        }
+        #endregion 
     }
 }

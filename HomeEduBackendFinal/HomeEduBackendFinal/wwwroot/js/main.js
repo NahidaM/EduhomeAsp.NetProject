@@ -1,3 +1,4 @@
+
 (function ($) {
 "use strict";  
 
@@ -130,64 +131,6 @@ $(".notice-left").niceScroll({
         });
 
 })(jQuery);	
-//search
 
 
-$(document).ready(function () {
 
-    //let search = $(this).val().trim();
-    let hidden = $("#hidden").val().trim();
-
-    $(document).on("keyup", ".input-search", function () {
-        let search = $(".input-search").val().trim();
-        $(".searchList li").slice(1).remove();
-        //$(".searchList").html()
-        if (search.length > 0) {
-            $.ajax({
-                url: "/Ajax/Search?search=" + search+"&hidden="+hidden,
-                type: "Get",
-                success: function (res) {
-                    if (hidden == "teacher") {
-                        $(".searchList").append(`<div class="card" style="width: 18rem;" style="position:absolute">
-                          <img class="card-img-top" src="img/teacher/${res[0].image}" alt="Card image cap">
-                          <div class="card-h5 class="card-title">${res[0].fullName}body">
-                            <</h5>
-                            <p class="card-text"> ${res[0].position}</p>
-                             <a class="btn btn-dark mr-3" asp-controller="Teacher" asp-action="Detail">Go Detail</a>
-                          </div>
-                        </div>`);
-                    }
-                    else if (hidden == "blog") {
-                        $(".searchList").append(`<div class="card" style="width: 18rem;" style="position:absolute">
-                          <img class="card-img-top" src="img/blog/${res[0].image}" alt="Card image cap">
-                          <div class="card-body">
-                            <h5 class="card-title">${res[0].title}</h5>
-                            <p class="card-text"> ${res[0].author}</p>
-                             <a class="btn btn-dark mr-3" asp-controller="Blog" asp-action="Detail" asp-route-id="${res[0].id}>Go Detail</a>
-                          </div>
-                        </div>`);
-                    } else if(hidden=="course"){
-                        $(".searchList").append(`<div class="card" style="width: 18rem;" style="position:absolute">
-                          <img class="card-img-top" src="img/course/${res[0].image}" alt="Card image cap">
-                          <div class="card-body">
-                            <h5 class="card-title">${res[0].title}</h5>
-                            <p class="card-text"> ${res[0].description}</p>
-                             <a class="btn btn-dark mr-3" href="/Courses/Detail/${res[0].id}">Go Detail</a>
-                          </div>
-                        </div>`);
-
-                    }
-                  
-                    //console.log(res[0].image)
-                    console.log(res)
-                   //console.log(res)
-                  
-                }
-            })
-        }
-        
-
-    })
-    
-
-})

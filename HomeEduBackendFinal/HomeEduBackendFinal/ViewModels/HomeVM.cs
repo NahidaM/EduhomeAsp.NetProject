@@ -14,5 +14,6 @@ namespace HomeEduBackendFinal.ViewModels
         public WhyUs WhyUs { get; set; } 
         public List<UpCommingEvent> UpComingEvents { get; set; }
         public Testimonial Testimonial { get; set; } 
+
     }
 }

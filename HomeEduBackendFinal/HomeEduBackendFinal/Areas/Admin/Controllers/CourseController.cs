@@ -2,6 +2,7 @@
 using HomeEduBackendFinal.Extentions;
 using HomeEduBackendFinal.Helpers;
 using HomeEduBackendFinal.Models;
+using HomeEduBackendFinal.ViewModels;
 using HomeEduBackendFinal.ViewModels.Course;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
@@ -30,6 +31,7 @@ namespace HomeEduBackendFinal.Areas.Admin.Controllers
             _usermanager = usermanager;
         }
 
+        #region Index
         public async Task<IActionResult> Index()
         {
             if (User.IsInRole("Admin"))
@@ -50,34 +52,29 @@ namespace HomeEduBackendFinal.Areas.Admin.Controllers
                     }
                     return View(courses);
                 }
-
             }
-
-
-
             return NotFound();
-
         }
-        
+
+        #endregion
+
+        #region Create
         public async Task<IActionResult> Create()
         {
             var users = await _usermanager.GetUsersInRoleAsync("Moderator");
             ViewBag.Roles = users;
             ViewBag.Categories = _db.Categories.Where(c => c.IsDeleted == false).ToList();
-            return View(); 
+            return View();
         }
-     
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(CourseCreateVM courseCreateVM, List<int> List, List<string> Userlist)
         {
-
             var users = await _usermanager.GetUsersInRoleAsync("Moderator");
             ViewBag.Roles = users;
-
             ViewBag.Categories = _db.Categories.ToList();
             if (!ModelState.IsValid) return NotFound();
-
             if (ModelState["Photo"].ValidationState == Microsoft.AspNetCore.Mvc.ModelBinding.ModelValidationState.Invalid)
             {
                 return View();
@@ -94,17 +91,13 @@ namespace HomeEduBackendFinal.Areas.Admin.Controllers
                 ModelState.AddModelError("Photo", "Shekilin olchusu max 200kb ola biler");
                 return View();
             }
-
-
             string path = Path.Combine("img", "course");
             string fileName = await courseCreateVM.Photo.SaveImg(_env.WebRootPath, path);
-
             if (List.Count() == 0)
             {
                 TempData["Error"] = "choose category";
                 return View();
             }
-
             Course newcourse = new Course
             {
                 Title = courseCreateVM.Title,
@@ -131,7 +124,6 @@ namespace HomeEduBackendFinal.Areas.Admin.Controllers
                     CourseId = newcourse.Id
                 };
                 courseUsers.Add(course);
-
             }
             //newcourse.CourseUsers = courseUsers;
 
@@ -146,29 +138,29 @@ namespace HomeEduBackendFinal.Areas.Admin.Controllers
                 courseCategories.Add(courseCategory);
             }
             newcourse.CourseCategories = courseCategories;
-
             await _db.Courses.AddAsync(newcourse);
             _db.SaveChanges();
-           
-
             return RedirectToAction(nameof(Index));
         }
+        #endregion
 
+        #region Detail
         public async Task<IActionResult> Detail(int? id)
         {
             if (id == null) return NotFound();
             Course course = await _db.Courses.Include(p => p.CourseCategories).ThenInclude(c => c.Category).FirstOrDefaultAsync(p => p.Id == id);
             return View(course);
         }
+        #endregion
 
-
+        #region Update
         public async Task<IActionResult> Update(int? id)
         {
             var currentusers = await _usermanager.GetUsersInRoleAsync("Moderator");
 
             ViewBag.allusers = currentusers;
 
-          
+
             ViewBag.Categories = _db.Categories.Where(c => !c.IsDeleted).ToList();
             if (id == null) return NotFound();
             //Course course = _db.Courses.Include(c => c.CourseCategories).ThenInclude(c => c.Category).Include(c => c.CourseUsers).FirstOrDefault(p => p.Id == id);
@@ -176,7 +168,6 @@ namespace HomeEduBackendFinal.Areas.Admin.Controllers
             //return View(course);
             return View();
         }
-
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Update(CourseEditVM courseEditVM, List<int> ListId/*,List<string> ListUser*/)
@@ -190,7 +181,6 @@ namespace HomeEduBackendFinal.Areas.Admin.Controllers
             {
                 Helper.DeleteImage(_env.WebRootPath, "img/course", dbCourse.Image);
                 dbCourse.Image = await courseEditVM.Photo.SaveImg(_env.WebRootPath, "img/course");
-
             }
 
             dbCourse.Language = courseEditVM.Language;
@@ -208,15 +198,11 @@ namespace HomeEduBackendFinal.Areas.Admin.Controllers
             dbCourse.HowToApply = courseEditVM.HowToApply;
             dbCourse.Certification = courseEditVM.Certification;
             var dbcoursecategory = _db.CourseCategories.Where(p => p.CourseId == dbCourse.Id);
-
-
             foreach (var item in dbcoursecategory)
             {
                 dbCourse.CourseCategories.Remove(item);
-
             }
             _db.SaveChanges();
-
             List<CourseCategory> courseCategories = new List<CourseCategory>();
             foreach (var item in ListId)
             {
@@ -226,25 +212,21 @@ namespace HomeEduBackendFinal.Areas.Admin.Controllers
                     CategoryId = item
                 };
                 courseCategories.Add(newcourseCategory);
-
             }
             dbCourse.CourseCategories = courseCategories;
-
             await _db.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
+        #endregion
 
-
-      
+        #region Delete
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null) return NotFound();
             Course course = await _db.Courses.FindAsync(id);
-
             return View(course);
         }
 
-      
         [HttpPost]
         [ValidateAntiForgeryToken]
         [ActionName("Delete")]
@@ -255,9 +237,8 @@ namespace HomeEduBackendFinal.Areas.Admin.Controllers
             course.IsDeleted = true;
             await _db.SaveChangesAsync();
             await Task.Delay(1000);
-             
             return RedirectToAction(nameof(Index));
         }
-
+        #endregion 
     }
 }

@@ -72,23 +72,26 @@
                         </div>
                         <!--Search Form Start-->
                         <div class="search-btn">
-                            <ul data-toggle="dropdown" class="header-search search-toggle searchList">
+                            <ul data-toggle="dropdown" class="header-search search-toggle">
                                 <li class="search-menu">
                                     <i class="fa fa-search"></i>
                                 </li>
                             </ul>
                             <div class="search">
                                 <div class="search-form">
-                                    <div id="search-form">
-                                        <input type="search" placeholder="Search here..." name="search" class="input-search" />
-                                        <button type="submit">
-                                            <span><i class="fa fa-search click-to-search"></i></span>
-                                        </button>
-                                    </div>
+                                    <form id="search-form" method="post">
+                                        <input type="search" id="search-input" placeholder="Search here..." name="search" />
+                                        <input type="hidden" name="hidden" value="" />
+                                        <span id="search-button">
+                                            <span class="icon"><i class="fa fa-search"></i></span>
+                                        </span>
+                                        <ul id="search-list"> 
+                                        </ul>
+                                    </form>
                                 </div>
                             </div>
                         </div>
-                        <!--End of Search Form-->
+                        <!--End of Search Form--> 
                         <!-- Main Menu End -->
                     </div>
                 </div>

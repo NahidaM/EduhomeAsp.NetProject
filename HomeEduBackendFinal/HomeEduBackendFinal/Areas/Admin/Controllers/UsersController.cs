@@ -22,17 +22,18 @@ namespace HomeEduBackendFinal.Areas.Admin.Controllers
         {
             _db = db;
             _userManager = userManager;
-
         }
+
+        #region Index
         public IActionResult Index(string name)
         {
             var users = (name == null) ? _userManager.Users.Where(x => x.IsActivated == true).ToList() :
                 _userManager.Users.Where(x => x.IsActivated == true && x.Fullname.ToLower().Contains(name.ToLower())).ToList();
-
             return View(users);
         }
+        #endregion
 
-
+        #region Details
         public async Task<IActionResult> Details(string id)
         {
             var user = await _userManager.FindByIdAsync(id);
@@ -43,24 +44,18 @@ namespace HomeEduBackendFinal.Areas.Admin.Controllers
                 {
                     User = user,
                     UserRoles = userRoles
-
                 };
-
                 return View(userRoleVM);
-
             }
-
             return NotFound();
-
         }
+        #endregion
 
-
+        #region Create
         public IActionResult Create()
         {
             return View();
         }
-
-
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(RegisterVm register)
@@ -86,14 +81,12 @@ namespace HomeEduBackendFinal.Areas.Admin.Controllers
             newUser.IsActivated = true;
 
             await _userManager.AddToRoleAsync(newUser, "Member");
-
             TempData["success"] = "User Created";
-
             return RedirectToAction("Index", "Users");
-
         }
+        #endregion
 
-
+        #region IsActive
         public async Task<IActionResult> IsActivate(string id)
         {
             if (id == null) return NotFound();
@@ -113,11 +106,13 @@ namespace HomeEduBackendFinal.Areas.Admin.Controllers
             await _db.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
+        #endregion
 
-
+        #region DeleteList
         public IActionResult DeleteList()
         {
             return View(_userManager.Users.Where(d => d.IsActivated == false));
         }
+        #endregion
     }
 }

@@ -16,7 +16,7 @@ namespace HomeEduBackendFinal.ViewComponents
             _db = db;
         }
         public async Task<IViewComponentResult> InvokeAsync(int take)
-        {
+        { 
             List<Teacher> model = _db.Teachers.Take(take).ToList();
             return View(await Task.FromResult(model));
         }

@@ -25,13 +25,15 @@ namespace HomeEduBackendFinal.Areas.Admin.Controllers
             _env = env;
         }
 
-
+        #region Index
         public IActionResult Index()
         {
             List<Contact> contact = _db.Contacts.ToList();
             return View(contact);
         }
+        #endregion
 
+        #region Update
         public IActionResult Update(int? id)
         {
             if (id == null) return NotFound();
@@ -67,21 +69,17 @@ namespace HomeEduBackendFinal.Areas.Admin.Controllers
                     return View();
                 }
 
-
                 string path = Path.Combine("img", "contact");
                 Helper.DeleteImage(_env.WebRootPath, path, dbContact.Image);
-
                 string fileName = await contact.Photo.SaveImg(_env.WebRootPath, path);
                 dbContact.Image = fileName;
-
             }
-
             dbContact.TitleHeader = contact.TitleHeader;
             dbContact.Info = contact.Info;
-
-
             await _db.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
+        #endregion
+
     } 
 }

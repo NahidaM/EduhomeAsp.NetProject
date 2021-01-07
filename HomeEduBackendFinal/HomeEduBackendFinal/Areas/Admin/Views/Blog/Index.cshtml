@@ -1,0 +1,56 @@
+﻿@model List<Blog>
+@{
+    ViewData["Title"] = "Index";
+}
+
+<div class="col-lg-12 grid-margin stretch-card">
+    <div class="card">
+        <div class="card-body">
+            <h2 class="card-title text-behance">Blogs</h2>
+            <a asp-action="Create" class="btn btn-success mb-5">Create</a>
+
+            <div class="table-responsive">
+                <table class="table table-striped table-dark">
+                    <thead>
+                        <tr>
+                            <th>
+                                Blog Image
+                            </th>
+                            <th>
+                                Blog Name
+                            </th>
+                            <th>
+                                Author
+                            </th>
+                            <th>
+                                Settings
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (Blog blogs in Model)
+                        {
+                            <tr>
+                                <td><img style="width: 150px; height: 150px; border-radius: 8px!important" src="~/img/blog/@blogs.Image" /></td>
+                                <td>@blogs.Title</td>
+                                <td>@blogs.Author</td>
+                                <td>
+                                    <a asp-area="Admin" asp-controller="Blog" asp-action="Detail" asp-route-id="@blogs.Id" class="btn btn-success mb-2">
+                                        <i class="fas fa-info-circle"></i>
+                                    </a> <br />
+                                    <a asp-area="Admin" asp-controller="Blog" asp-action="Update" asp-route-id="@blogs.Id" class="btn btn-warning mb-2">
+                                        <i class="fas fa-edit"></i>
+                                    </a>  <br />
+                                    <a asp-area="Admin" asp-controller="Blog" asp-action="Delete" asp-route-id="@blogs.Id" class="btn btn-pinterest mb-2">
+                                        <i class="fas fa-trash"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+

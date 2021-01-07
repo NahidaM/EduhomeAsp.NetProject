@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Blog>
+﻿@model List<Blog>
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -15,7 +15,22 @@
 <div class="blog-area pt-150 pb-150">
     <div class="container">
         <div class="row">
-            @await Component.InvokeAsync("Blog", 2) 
+            <div class="col-xs-12">
+                <div class="blog-title">
+                    <h3>search blog</h3>
+                </div>
+                <div class="course-form">
+                    <form id="search" method="get" asp-action="Index">
+                        <input type="search" id="searce-input" value="  @ViewData["GetBlog"]" name="searchString" />
+                        <button type="submit">search</button>
+                        <a class="reply-btn btn-success" asp-action="Index">Remove Results</a>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            @await Component.InvokeAsync("Blog", 2)
             @foreach (var blog in Model)
             {
                 <div class="col-md-4 col-sm-6 col-xs-12 mt-4" style="margin-top:50px">
@@ -62,5 +77,5 @@
 </div>
 <!-- Blog End -->
 <!-- Subscribe Start -->
-<partial name="_partialSubscribe" />
-<!-- Subscribe End --> 
+@await Component.InvokeAsync("Subscribe")
+<!-- Subscribe End -->

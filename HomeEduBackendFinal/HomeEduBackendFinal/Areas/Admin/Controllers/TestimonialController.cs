@@ -25,17 +25,21 @@ namespace HomeEduBackendFinal.Areas.Admin.Controllers
             _db = db;
             _env = env;
         }
+
+        #region Index
         public IActionResult Index()
         {
             return View(_db.Testimonials.ToList());
         }
+        #endregion
+
+        #region Update
         public IActionResult Update(int? id)
         {
             if (id == null) return NotFound();
             Testimonial testimonial = _db.Testimonials.FirstOrDefault(p => p.Id == id);
             if (testimonial == null) return NotFound();
             return View(testimonial);
-
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -63,27 +67,20 @@ namespace HomeEduBackendFinal.Areas.Admin.Controllers
                     ModelState.AddModelError("Photo", "Shekilin olchusu max 2mg ola biler");
                     return View();
                 }
-
-
                 string path = Path.Combine("img", "testimonial");
                 Helper.DeleteImage(_env.WebRootPath, path, dbtestimonial.Image);
-
                 string fileName = await testimonial.Photo.SaveImg(_env.WebRootPath, path);
                 dbtestimonial.Image = fileName;
-
             }
             dbtestimonial.Name = testimonial.Name;
             dbtestimonial.Title = testimonial.Title;
             dbtestimonial.Position = testimonial.Position;
-
-
-
             await _db.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
+        #endregion
 
-
-
+        #region Create
         public IActionResult Create()
         {
             return View();
@@ -93,7 +90,6 @@ namespace HomeEduBackendFinal.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(Testimonial testimonial)
         {
-
             if (ModelState["Photo"].ValidationState == Microsoft.AspNetCore.Mvc.ModelBinding.ModelValidationState.Invalid)
             {
                 return View();
@@ -119,21 +115,21 @@ namespace HomeEduBackendFinal.Areas.Admin.Controllers
             newTestimonal.Title = testimonial.Title;
             newTestimonal.Image = fileName;
             newTestimonal.Position = testimonial.Position;
-
             await _db.Testimonials.AddAsync(newTestimonal);
             await _db.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
 
         }
+        #endregion
 
-
+        #region Delete
         public IActionResult Delete(int? id)
         {
             if (id == null) return NotFound();
             Testimonial testimonial = _db.Testimonials.Find(id);
             if (id == null) return NotFound();
             return View(testimonial);
-        } 
+        }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -148,8 +144,7 @@ namespace HomeEduBackendFinal.Areas.Admin.Controllers
             _db.Testimonials.Remove(testimonial);
             await _db.SaveChangesAsync();
             return RedirectToAction("Index", "Testimonial");
-
         }
-
+        #endregion
     }
 }

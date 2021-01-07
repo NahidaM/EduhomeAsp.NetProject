@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace HomeEduBackendFinal.ViewModels
 {
     public class SpeakerEditVM
-    {
+    { 
         public int Id { get; set; }
         public string Image { get; set; }
         [NotMapped]

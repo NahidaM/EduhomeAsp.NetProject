@@ -26,18 +26,18 @@ namespace HomeEduBackendFinal.Areas.Admin.Controllers
             _signInManager = signInManager;
         }
 
+        #region Index
         public async Task<IActionResult> Index()
         {
             return View(await _roleManager.Roles.ToListAsync());
         }
+        #endregion
 
+        #region Create
         public IActionResult Create()
         {
             return View();
         }
-
-
-
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(string name)
@@ -56,13 +56,13 @@ namespace HomeEduBackendFinal.Areas.Admin.Controllers
                         ModelState.AddModelError("", item.Description);
                         return View();
                     }
-
                 }
             }
             return View(name);
-
         }
+        #endregion
 
+        #region Delete
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Delete(string id)
@@ -75,23 +75,23 @@ namespace HomeEduBackendFinal.Areas.Admin.Controllers
             }
             return RedirectToAction(nameof(Index));
         }
+        #endregion
 
-
+        #region UserList
         public async Task<IActionResult> UserList()
         {
             return View(await _userManager.Users.ToListAsync());
         }
+        #endregion
 
-
+        #region Edit
         public async Task<IActionResult> Edit(string userid)
         {
             var user = await _userManager.FindByIdAsync(userid);
-
             if (user != null)
             {
                 var userRoles = await _userManager.GetRolesAsync(user);
                 var roles = await _roleManager.Roles.ToListAsync();
-
                 var changeRole = new ChangeRoleVM
                 {
                     UserId = user.Id,
@@ -99,12 +99,9 @@ namespace HomeEduBackendFinal.Areas.Admin.Controllers
                     UserRoles = userRoles,
                     AllRoles = roles
                 };
-
                 return View(changeRole);
             }
-
             return NotFound();
-
         }
 
         [HttpPost]
@@ -121,5 +118,7 @@ namespace HomeEduBackendFinal.Areas.Admin.Controllers
             await _userManager.RemoveFromRolesAsync(user, removedRoles);
             return RedirectToAction(nameof(UserList));
         }
+        #endregion
+
     }
 }

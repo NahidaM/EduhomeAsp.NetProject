@@ -29,6 +29,7 @@ namespace HomeEduBackendFinal.Models
         public string Twitter { get; set; }
         [NotMapped]
         public IFormFile Photo { get; set; }
+
         public int CategoryId { get; set; }
         public Category Category { get; set; }
         public virtual ICollection<TeacherUser> TeacherUsers { get; set; } 

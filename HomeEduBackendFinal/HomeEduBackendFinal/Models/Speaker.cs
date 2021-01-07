@@ -11,7 +11,7 @@ namespace HomeEduBackendFinal.Models
     {
         public int Id { get; set; }
         public string Image { get; set; }
-        [NotMapped]
+        [NotMapped] 
         public IFormFile Photo { get; set; }
         public string Name { get; set; }
         public string Position { get; set; }

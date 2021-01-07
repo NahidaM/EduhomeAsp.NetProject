@@ -1,4 +1,4 @@
-﻿@model LoginVm  
+﻿@model LoginVm
 @{
     ViewData["Title"] = "Login";
 }
@@ -16,7 +16,7 @@
                     </div>
                 </div>
             </div>
-        </div> 
+        </div>
     </div>
 </div>
 <!-- Banner Area End -->
@@ -38,21 +38,21 @@
                                 <input asp-for="Password" placeholder="Password">
                                 <span class="text-danger" asp-validation-for="Password"></span>
                                 <div class="button-box">
-                                    
+
                                     <button type="submit" class="default-btn">Login</button>
                                     <a asp-controller="account" asp-action="Register" type="submit" class="default-btn " style="background:green;color:white;margin-left:50px">SignUp</a>
                                 </div>
                             </form>
                         </div>
                     </div>
-                </div> 
+                </div>
             </div>
         </div>
     </div>
 </div>
 <!-- Login end -->
 <!-- Subscribe Start -->
-<partial name="_partialSubscribe" />
+@await Component.InvokeAsync("Subscribe")
 <!-- Subscribe End -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.2/jquery.validate.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.11/jquery.validate.unobtrusive.min.js"></script>

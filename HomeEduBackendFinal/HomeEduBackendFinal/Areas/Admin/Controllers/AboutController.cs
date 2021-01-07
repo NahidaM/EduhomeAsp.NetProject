@@ -24,14 +24,20 @@ namespace HomeEduBackendFinal.Areas.Admin.Controllers
             _db = db;
             _env = env;
         }
+
+
+        #region Index
+        //HomeEduBackendFinal/Admin/AboutController/Index 
         public IActionResult Index()
         {
             About about = _db.Abouts.FirstOrDefault();
             return View(about);
         }
+        #endregion
 
 
-
+        #region Update
+        //GET: HomeEduBackendFinal/Admin/AboutController/Update
         public async Task<IActionResult> Update(int? id)
         {
             if (id == null) return NotFound();
@@ -39,7 +45,7 @@ namespace HomeEduBackendFinal.Areas.Admin.Controllers
             if (about == null) return NotFound();
             return View(about);
         }
-
+        //POST: HomeEduBackendFinal/Admin/AboutController/Update
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Update(int? id, About about)
@@ -70,14 +76,13 @@ namespace HomeEduBackendFinal.Areas.Admin.Controllers
                 Helper.DeleteImage(_env.WebRootPath, path, dbabout.Image);
                 string fileName = await about.Photo.SaveImg(_env.WebRootPath, path);
                 dbabout.Image = fileName;
-
             }
             dbabout.Description = about.Description;
             dbabout.Title = about.Title;
-
             await _db.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
+        #endregion
 
     }
 }

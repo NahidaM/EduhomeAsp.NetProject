@@ -25,27 +25,24 @@ namespace HomeEduBackendFinal.Areas.Admin.Controllers
         {
             _db = db;
             _env = env;
-
         }
+
+        #region Index
         public IActionResult Index()
         {
             return View(_db.Speakers.Where(t => t.IsDeleted == false).ToList());
         }
+        #endregion
 
-
-
+        #region MyRegion
         public IActionResult Create()
         {
             return View();
         }
-
-
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(SpeakerCreateVM speakerCreateVM)
         {
-
-
             if (!ModelState.IsValid) return View();
             if (!speakerCreateVM.Photo.IsImage())
             {
@@ -67,17 +64,20 @@ namespace HomeEduBackendFinal.Areas.Admin.Controllers
             };
             await _db.AddAsync(newSpeaker);
             await _db.SaveChangesAsync();
-            return RedirectToAction("Index"); 
+            return RedirectToAction("Index");
         }
+        #endregion
 
+        #region Detail
         public IActionResult Detail(int? id)
         {
             if (id == null) return View();
             Speaker dbspeaker = _db.Speakers.FirstOrDefault(p => p.Id == id);
-
             return View(dbspeaker);
         }
+        #endregion
 
+        #region Update
         public IActionResult Update(int? id)
         {
             if (id == null) return View();
@@ -90,7 +90,6 @@ namespace HomeEduBackendFinal.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Update(SpeakerEditVM speakerEditVM)
         {
-
             if (!ModelState.IsValid) return View();
             Speaker dbSpeaker = await _db.Speakers.FirstOrDefaultAsync(x => x.Id == speakerEditVM.Id);
             if (dbSpeaker == null) return NotFound();
@@ -98,26 +97,23 @@ namespace HomeEduBackendFinal.Areas.Admin.Controllers
             dbSpeaker.Position = speakerEditVM.Position;
             if (speakerEditVM.Photo != null)
             {
-                Helper.DeleteImage(_env.WebRootPath, "img/teacher", dbSpeaker.Image); 
+                Helper.DeleteImage(_env.WebRootPath, "img/teacher", dbSpeaker.Image);
                 dbSpeaker.Image = await speakerEditVM.Photo.SaveImg(_env.WebRootPath, "img/teacher");
-
             }
-
             await _db.SaveChangesAsync();
             await Task.Delay(1000);
-
             return RedirectToAction(nameof(Index));
         }
+        #endregion
 
+        #region Delete
         public IActionResult Delete(int? id)
         {
             if (id == null) return NotFound();
             Speaker dbSpeaker = _db.Speakers.FirstOrDefault(s => s.Id == id);
             if (dbSpeaker == null) return NotFound();
-
             return View(dbSpeaker);
         }
-
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -130,8 +126,7 @@ namespace HomeEduBackendFinal.Areas.Admin.Controllers
             dbSpeaker.IsDeleted = true;
             await _db.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
-        } 
-
-
+        }
+        #endregion
     }
 }

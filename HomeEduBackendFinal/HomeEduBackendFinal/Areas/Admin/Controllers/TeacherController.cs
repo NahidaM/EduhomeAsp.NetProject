@@ -26,12 +26,15 @@ namespace HomeEduBackendFinal.Areas.Admin.Controllers
         {
             _db = db;
             _env = env;
-
         }
+        #region Index
         public IActionResult Index()
         {
             return View(_db.Teachers.Where(t => t.IsDeleted == false).Include(c => c.Category).ToList());
         }
+        #endregion
+
+        #region Create
         public IActionResult Create()
         {
             ViewBag.Category = new SelectList(_db.Categories.Where(c => c.IsDeleted == false).ToList(), "Id", "Name");
@@ -75,17 +78,20 @@ namespace HomeEduBackendFinal.Areas.Admin.Controllers
             };
             await _db.AddAsync(newTeacher);
             await _db.SaveChangesAsync();
-
-            
             return RedirectToAction("Index");
         }
+        #endregion
+
+        #region Detail
         public IActionResult Detail(int? id)
         {
             if (id == null) return View();
             Teacher dbteacher = _db.Teachers.Include(c => c.Category).FirstOrDefault(p => p.Id == id);
-
             return View(dbteacher);
         }
+        #endregion
+
+        #region Update
         public IActionResult Update(int? id)
         {
             ViewBag.Category = new SelectList(_db.Categories.Where(c => c.IsDeleted == false).ToList(), "Id", "Name");
@@ -99,7 +105,6 @@ namespace HomeEduBackendFinal.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Update(TeacherEditVM teacherEditVM)
         {
-
             if (!ModelState.IsValid) return View();
             Teacher dbTeacher = await _db.Teachers.FirstOrDefaultAsync(x => x.Id == teacherEditVM.Id);
             if (dbTeacher == null) return NotFound();
@@ -124,23 +129,20 @@ namespace HomeEduBackendFinal.Areas.Admin.Controllers
                 dbTeacher.Image = await teacherEditVM.Photo.SaveImg(_env.WebRootPath, "img/teacher");
 
             }
-
             await _db.SaveChangesAsync();
             await Task.Delay(1000);
-
             return RedirectToAction(nameof(Index));
         }
+        #endregion
 
+        #region Delete
         public IActionResult Delete(int? id)
         {
             if (id == null) return NotFound();
             Teacher dbTeacher = _db.Teachers.Include(t => t.Category).FirstOrDefault(t => t.Id == id);
             if (dbTeacher == null) return NotFound();
-
             return View(dbTeacher);
         }
-
-
         [HttpPost]
         [ValidateAntiForgeryToken]
         [ActionName("Delete")]
@@ -153,6 +155,6 @@ namespace HomeEduBackendFinal.Areas.Admin.Controllers
             await _db.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
-
+        #endregion
     }
 }

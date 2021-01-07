@@ -8,7 +8,7 @@
         <div class="card">
             <div class="card-body">
                 <h4 class="card-title">Create Event</h4>
-                <form class="forms-sample">
+                <form class="forms-sample" method="post" enctype="multipart/form-data">
                     <div class="form-group">
                         <label asp-for="Photo"></label>
                         <input asp-for="Photo" class="form-control" accept="image/*">
@@ -41,12 +41,16 @@
                     </div>
                     <div class="form-group">
                         <label class="d-block">Speaker</label>
-                    
+
+                    <select class="form-select" name="speakerId">
+
                         @foreach (var speaker in ViewBag.Speaker)
                         {
-                            <input type="checkbox" class="speaker-input" id="@speaker.Name" value="@speaker.Id">
-                            <label for="@speaker.Name"> @speaker.Name</label><br>
+                            <option value="@speaker.Id">@speaker.Name</option>
                         }
+
+                        
+                    </select>
 
 
                     </div>

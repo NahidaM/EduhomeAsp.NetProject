@@ -9,7 +9,7 @@ namespace HomeEduBackendFinal.ViewModels.Event
 {
     public class UpComingEventCreateVM
     {
-        public int Id { get; set; }
+        public int Id { get; set; } 
         [Required]
         public DateTime Month { get; set; }
         [Required]

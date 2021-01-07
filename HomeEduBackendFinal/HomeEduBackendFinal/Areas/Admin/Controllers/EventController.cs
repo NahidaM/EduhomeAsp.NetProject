@@ -1,4 +1,5 @@
-﻿using HomeEduBackendFinal.DAL;
+﻿using AutoMapper;
+using HomeEduBackendFinal.DAL;
 using HomeEduBackendFinal.Extentions;
 using HomeEduBackendFinal.Helpers;
 using HomeEduBackendFinal.Models;
@@ -22,7 +23,6 @@ namespace HomeEduBackendFinal.Areas.Admin.Controllers
     [Authorize(Roles = "Admin")] 
     public class EventController : Controller
     {
-
         private readonly AppDbContext _db;
         private readonly IWebHostEnvironment _env;
         public EventController(AppDbContext db, IWebHostEnvironment env)
@@ -30,28 +30,24 @@ namespace HomeEduBackendFinal.Areas.Admin.Controllers
             _db = db;
             _env = env;
         }
-
+        #region Index
         public IActionResult Index()
         {
             return View(_db.UpComingEvents.Include(c => c.Category).Where(c => c.Category.IsDeleted == false).
                 Include(e => e.SpeakerEvents).ThenInclude(c => c.Speaker).ToList());
-
         }
+        #endregion
 
-
+        #region Create
         public IActionResult Create()
         {
             ViewBag.Speaker = _db.Speakers.Where(s => s.IsDeleted == false).ToList();
             ViewBag.Category = new SelectList(_db.Categories.Where(c => c.IsDeleted == false).ToList(), "Id", "Name");
             return View();
         }
-
-
         [HttpPost]
-
-        public async Task<IActionResult> Create([FromForm] UpComingEventCreateVM upComingEventCreateVM)
+        public async Task<IActionResult> Create([FromForm] UpComingEventCreateVM upComingEventCreateVM, int speakerId)
         {
-
             if (!ModelState.IsValid) return BadRequest(ModelState);
 
             if (!upComingEventCreateVM.Photo.IsImage())
@@ -60,19 +56,16 @@ namespace HomeEduBackendFinal.Areas.Admin.Controllers
                 return BadRequest(ModelState);
             }
 
-            if (upComingEventCreateVM.Photo.MaxLength(2000))
+            if (upComingEventCreateVM.Photo.MaxLength(200))
             {
                 ModelState.AddModelError("Photo", "Shekilin olchusu max 200kb ola biler");
                 return BadRequest(ModelState);
             }
-            if (upComingEventCreateVM.SpeakerEventsId == null)
-            {
-                ModelState.AddModelError("", "Speaker Secmelisiniz!");
-                return BadRequest(ModelState);
-            }
+
             string path = Path.Combine("img", "event");
             UpCommingEvent upComingEvent = new UpCommingEvent
             {
+                Id = upComingEventCreateVM.Id,
                 Title = upComingEventCreateVM.Title,
                 Image = await upComingEventCreateVM.Photo.SaveImg(_env.WebRootPath, path),
                 Month = upComingEventCreateVM.Month,
@@ -83,48 +76,32 @@ namespace HomeEduBackendFinal.Areas.Admin.Controllers
                 Description = upComingEventCreateVM.Description,
                 CategoryId = upComingEventCreateVM.CategoryId
             };
-
-
-
             await _db.UpComingEvents.AddAsync(upComingEvent);
             await _db.SaveChangesAsync();
-             
+
+            #region SubscribedEmail
             List<SubscribedEmail> emails = _db.SubscribedEmails.Where(e => e.HasDeleted == false).ToList();
             foreach (SubscribedEmail email in emails)
             {
                 SendEmail(email.Email, "Yeni bir event yaradildi.", "<h1>Yeni bir event yaradildi</h1>");
             }
+            #endregion
 
-            foreach (var speakerId in upComingEventCreateVM.SpeakerEventsId)
-            {
-                var speaker = _db.Speakers.Include(p => p.SpeakerEvents).ThenInclude(p => p.UpComingEvent).
+            var speaker = _db.Speakers.Include(p => p.SpeakerEvents).ThenInclude(p => p.UpComingEvent).
                     FirstOrDefault(p => p.Id == speakerId);
-                foreach (var se in speaker.SpeakerEvents)
-                {
-                    if (upComingEvent.StartTime > se.UpComingEvent.StartTime && upComingEvent.EndTime < se.UpComingEvent.EndTime)
-                    {
-                        ModelState.AddModelError("", "Busy");
-                        return BadRequest(ModelState);
 
-                    }
-
-                }
-
-                SpeakerEvent speakerEvent = new SpeakerEvent
-                {
-                    SpeakerId = speakerId,
-                    UpComingEventId = upComingEvent.Id
-
-                }; 
-                _db.SpeakerEvents.Add(speakerEvent);
-
-                await _db.SaveChangesAsync();
-            }
-          
-            return Ok($"{upComingEvent.Id} li element yaradildi");
-
+            SpeakerEvent speakerEvent = new SpeakerEvent
+            {
+                SpeakerId = speakerId,
+                UpComingEventId = upComingEvent.Id
+            };
+            _db.SpeakerEvents.Add(speakerEvent);
+            await _db.SaveChangesAsync();
+            return RedirectToAction("Index");
         }
+        #endregion 
 
+        #region Detail
         public IActionResult Detail(int? id)
         {
             if (id == null) return View();
@@ -133,9 +110,11 @@ namespace HomeEduBackendFinal.Areas.Admin.Controllers
 
             return View(upComingEvent);
         }
+        #endregion
 
+        #region Update
         public IActionResult Update(int? id)
-        {
+        { 
             ViewBag.Category = new SelectList(_db.Categories.ToList(), "Id", "Name");
             ViewBag.Speaker = _db.Speakers.ToList();
             if (id == null) return View();
@@ -143,12 +122,9 @@ namespace HomeEduBackendFinal.Areas.Admin.Controllers
                 ThenInclude(c => c.Speaker).FirstOrDefault(p => p.Id == id);
             return View(upComingEvent);
         }
-
         [HttpPost]
-
-        public async Task<IActionResult> Update([FromForm] UpComingEventEditVM upComingEventEdit)
+        public async Task<IActionResult> Update(UpComingEventCreateVM upComingEventEdit)
         {
-
             if (!ModelState.IsValid) return BadRequest(ModelState);
             var upComing = await _db.UpComingEvents.FirstOrDefaultAsync(x => x.Id == upComingEventEdit.Id);
             if (upComing == null) return NotFound();
@@ -164,37 +140,21 @@ namespace HomeEduBackendFinal.Areas.Admin.Controllers
             {
                 Helper.DeleteImage(_env.WebRootPath, "img/event", upComing.Image);
                 upComing.Image = await upComingEventEdit.Photo.SaveImg(_env.WebRootPath, "img/event");
-
             }
-            if (upComingEventEdit.SpeakersId == null)
-            {
-                ModelState.AddModelError("", "Speaker Secmelisiniz!");
-                return BadRequest(ModelState);
-            }
-
             var speakerEvents = _db.SpeakerEvents.Where(x => x.UpComingEventId == upComing.Id);
-
-
             foreach (var item in speakerEvents)
             {
                 upComing.SpeakerEvents.Remove(item);
             }
             await _db.SaveChangesAsync();
-
-            upComing.SpeakerEvents = upComingEventEdit.SpeakersId
-           .Select(x => new SpeakerEvent { SpeakerId = x }).ToList();
-
-
-
-
+            //upComing.SpeakerEvents = upComingEventEdit.SpeakersId
+           //.Select(x => new SpeakerEvent { SpeakerId = x }).ToList();
             await _db.SaveChangesAsync();
-
-
-
             return RedirectToAction(nameof(Index));
         }
+        #endregion
 
-
+        #region Delete
         public IActionResult Delete(int? id)
         {
             ViewBag.Speaker = _db.Speakers.ToList();
@@ -203,8 +163,6 @@ namespace HomeEduBackendFinal.Areas.Admin.Controllers
             if (upComingEvent == null) return View();
             return View(upComingEvent);
         }
-
-
         [HttpPost]
         [ValidateAntiForgeryToken]
         [ActionName("Delete")]
@@ -224,7 +182,9 @@ namespace HomeEduBackendFinal.Areas.Admin.Controllers
             _db.SaveChanges();
             return RedirectToAction(nameof(Index));
         }
+        #endregion
 
+        #region SendEmail
         public void SendEmail(string email, string subject, string htmlMessage)
         {
             System.Net.Mail.SmtpClient client = new System.Net.Mail.SmtpClient()
@@ -241,7 +201,7 @@ namespace HomeEduBackendFinal.Areas.Admin.Controllers
                 }
             };
             MailAddress fromEmail = new MailAddress("nahidanm@gmail.com", "Nahida");
-            MailAddress toEmail = new MailAddress(email, "Nahida"); 
+            MailAddress toEmail = new MailAddress(email, "Nahida");
             MailMessage message = new MailMessage()
             {
                 From = fromEmail,
@@ -251,5 +211,6 @@ namespace HomeEduBackendFinal.Areas.Admin.Controllers
             message.To.Add(toEmail);
             client.Send(message);
         }
+        #endregion
     }
 }

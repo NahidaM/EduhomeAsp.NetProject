@@ -13,4 +13,5 @@ namespace HomeEduBackendFinal.Models
         public int SpeakerId { get; set; }
         public Speaker Speaker { get; set; } 
     }
-}
+} 
+ 

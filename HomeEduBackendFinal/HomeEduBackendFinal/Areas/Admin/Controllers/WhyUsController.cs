@@ -21,19 +21,22 @@ namespace HomeEduBackendFinal.Areas.Admin.Controllers
             _db = db;
             _env = env;
         }
+
+        #region Index
         public IActionResult Index()
         {
             WhyUs whyUs = _db.WhyUs.FirstOrDefault();
             return View(whyUs);
         }
+        #endregion
 
+        #region Update
         public IActionResult Update(int? id)
         {
             if (id == null) return NotFound();
             WhyUs whyUs = _db.WhyUs.FirstOrDefault(p => p.Id == id);
             if (whyUs == null) return NotFound();
             return View(whyUs);
-
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -47,5 +50,6 @@ namespace HomeEduBackendFinal.Areas.Admin.Controllers
             await _db.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
+        #endregion
     }
 }

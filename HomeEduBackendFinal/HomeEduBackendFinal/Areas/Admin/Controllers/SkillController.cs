@@ -20,28 +20,25 @@ namespace HomeEduBackendFinal.Areas.Admin.Controllers
         {
             _db = db;
         }
+        #region Index
         public IActionResult Index()
         {
             return View(_db.Skills.Include(s => s.Teacher).Where(t => !t.Teacher.IsDeleted).ToList());
         }
+        #endregion
 
-
-
+        #region Create
         public IActionResult Create()
         {
-            
             ViewBag.Teachers = _db.Teachers.ToList();
             return View();
         }
-
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(Skill skill)
         {
-           
             ViewBag.Teachers = _db.Teachers.ToList();
             if (!ModelState.IsValid) return View();
-
             Skill existSkill = _db.Skills.FirstOrDefault(s => s.TeacherId == skill.TeacherId);
             if (existSkill != null)
             {
@@ -58,15 +55,13 @@ namespace HomeEduBackendFinal.Areas.Admin.Controllers
                 TeamLeader = skill.TeamLeader,
                 TeacherId = skill.TeacherId
             };
-
             _db.Skills.Add(newSkill);
             await _db.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
+        #endregion
 
-
-
-
+        #region Update
         public async Task<IActionResult> Update(int? id)
         {
             if (id == null) return NotFound();
@@ -82,16 +77,15 @@ namespace HomeEduBackendFinal.Areas.Admin.Controllers
             if (id == null) return NotFound();
             Skill dbskill = await _db.Skills.FindAsync(id);
             if (dbskill == null) return NotFound();
-
             dbskill.Language = skill.Language;
             dbskill.Design = skill.Design;
             dbskill.Development = skill.Development;
             dbskill.TeamLeader = skill.TeamLeader;
             dbskill.Innovation = skill.Innovation;
             dbskill.Communication = skill.Communication;
-
             await _db.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
-        } 
+        }
+        #endregion
     }
 }
