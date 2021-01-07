@@ -39,10 +39,5 @@ namespace HomeEduBackendFinal.DAL
         public DbSet<SubscribedEmail> SubscribedEmails { get; set; } 
         public DbSet<Subscribe> Subscribes { get; set; }
 
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            modelBuilder.Entity<UpCommingEvent>().ToTable("UpComingEvents");
-            modelBuilder.Entity<Speaker>().ToTable("Speakers");
-        }
     }
 }

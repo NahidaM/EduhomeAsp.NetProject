@@ -14,7 +14,7 @@
                     <div class="blog-details-content mt-5 text-center bg-white p-5">
                         <h2>@Model.Title </h2>
                         <h6>By @Model.Author  /  @Model.WriteTime.ToString("MMMM dd, yyyy")  /  <i class="fa fa-comments-o"></i> @Model.CommentCount</h6>
-                        <p>@Html.Raw(Model.BlogDetail)</p>
+                        @*<p>@Html.Raw(Model.BlogDetail)</p>*@
                         <a class="btn btn-outline-info" asp-action="Index">Go Back</a>
                     </div>
                 </div>

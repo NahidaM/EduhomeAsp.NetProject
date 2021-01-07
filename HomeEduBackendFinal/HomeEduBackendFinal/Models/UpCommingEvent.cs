@@ -23,6 +23,5 @@ namespace HomeEduBackendFinal.Models
         public ICollection<SpeakerEvent> SpeakerEvents { get; set; }
         public int CategoryId { get; set; }
         public virtual Category Category { get; set; }
-        public object UpComingEventEditVM { get; internal set; }
     }
 }

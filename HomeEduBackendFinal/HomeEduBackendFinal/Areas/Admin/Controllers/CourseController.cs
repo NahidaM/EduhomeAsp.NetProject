@@ -36,7 +36,7 @@ namespace HomeEduBackendFinal.Areas.Admin.Controllers
         {
             if (User.IsInRole("Admin"))
             {
-                return View(_db.Courses.Include(x => x.CourseCategories).ThenInclude(c => c.Category));
+                return View(_db.Courses.Where(c=>c.IsDeleted==false).Include(x => x.CourseCategories).ThenInclude(c => c.Category));
             }
             if (User.IsInRole("Moderator"))
             {

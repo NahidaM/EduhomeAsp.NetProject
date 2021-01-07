@@ -194,13 +194,14 @@ namespace HomeEduBackendFinal.Areas.Admin.Controllers
                 EnableSsl = true,
                 DeliveryMethod = SmtpDeliveryMethod.Network,
                 UseDefaultCredentials = false,
+                
                 Credentials = new NetworkCredential()
                 {
-                    UserName = "nahidanm@gmail.com",
+                    UserName = "nahidanm22@gmail.com",
                     Password = "nahida1999"
                 }
             };
-            MailAddress fromEmail = new MailAddress("nahidanm@gmail.com", "Nahida");
+            MailAddress fromEmail = new MailAddress("nahidanm22@gmail.com", "Nahida");
             MailAddress toEmail = new MailAddress(email, "Nahida");
             MailMessage message = new MailMessage()
             {
